@@ -126,6 +126,7 @@ namespace MAT_script_runner
             this.Controls.Add(this.Textbox_Gesture);
             this.Controls.Add(this.label1);
             this.Name = "Filename_Formatting";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Filename_Formatting";
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_Participant)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_Trial)).EndInit();

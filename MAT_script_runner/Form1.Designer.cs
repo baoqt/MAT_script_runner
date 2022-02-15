@@ -29,6 +29,7 @@ namespace MAT_script_runner
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Button_TCPIP_Connection = new System.Windows.Forms.Button();
             this.Button_Bluetooth_Connection = new System.Windows.Forms.Button();
             this.Panel_Home = new System.Windows.Forms.Panel();
@@ -38,10 +39,12 @@ namespace MAT_script_runner
             this.Panel_Bluetooth_Connection = new System.Windows.Forms.Panel();
             this.Button_Start_Bluetooth_Connection = new System.Windows.Forms.Button();
             this.Form2_Back_Button = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.COM_Port_Label = new System.Windows.Forms.Label();
+            this.Numeric_COM_Port = new System.Windows.Forms.NumericUpDown();
+            this.Timer_Receive_Samples = new System.Windows.Forms.Timer(this.components);
             this.Panel_Home.SuspendLayout();
             this.Panel_Bluetooth_Connection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Numeric_COM_Port)).BeginInit();
             this.SuspendLayout();
             // 
             // Button_TCPIP_Connection
@@ -119,8 +122,8 @@ namespace MAT_script_runner
             // 
             this.Panel_Bluetooth_Connection.Controls.Add(this.Button_Start_Bluetooth_Connection);
             this.Panel_Bluetooth_Connection.Controls.Add(this.Form2_Back_Button);
-            this.Panel_Bluetooth_Connection.Controls.Add(this.textBox1);
             this.Panel_Bluetooth_Connection.Controls.Add(this.COM_Port_Label);
+            this.Panel_Bluetooth_Connection.Controls.Add(this.Numeric_COM_Port);
             this.Panel_Bluetooth_Connection.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel_Bluetooth_Connection.Location = new System.Drawing.Point(0, 0);
             this.Panel_Bluetooth_Connection.Name = "Panel_Bluetooth_Connection";
@@ -150,16 +153,6 @@ namespace MAT_script_runner
             this.Form2_Back_Button.UseVisualStyleBackColor = true;
             this.Form2_Back_Button.Click += new System.EventHandler(this.Button_Bluetooth_Back_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.Location = new System.Drawing.Point(117, 90);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.PlaceholderText = "Enter COM Port Number";
-            this.textBox1.Size = new System.Drawing.Size(150, 23);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // COM_Port_Label
             // 
             this.COM_Port_Label.Dock = System.Windows.Forms.DockStyle.Top;
@@ -171,20 +164,44 @@ namespace MAT_script_runner
             this.COM_Port_Label.Text = "COM Port";
             this.COM_Port_Label.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
+            // Numeric_COM_Port
+            // 
+            this.Numeric_COM_Port.Location = new System.Drawing.Point(143, 79);
+            this.Numeric_COM_Port.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Numeric_COM_Port.Name = "Numeric_COM_Port";
+            this.Numeric_COM_Port.Size = new System.Drawing.Size(95, 23);
+            this.Numeric_COM_Port.TabIndex = 5;
+            this.Numeric_COM_Port.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Numeric_COM_Port.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.Numeric_COM_Port.ValueChanged += new System.EventHandler(this.Numeric_COM_Port_ValueChanged);
+            // 
+            // Timer_Receive_Samples
+            // 
+            this.Timer_Receive_Samples.Interval = 300;
+            this.Timer_Receive_Samples.Tick += new System.EventHandler(this.Timer_Receive_Samples_Tick);
+            // 
             // MAT_Script_Runner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 311);
-            this.Controls.Add(this.Panel_Home);
             this.Controls.Add(this.Panel_Bluetooth_Connection);
+            this.Controls.Add(this.Panel_Home);
             this.MinimumSize = new System.Drawing.Size(400, 350);
             this.Name = "MAT_Script_Runner";
             this.Text = "MAT Script Runner";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Panel_Home.ResumeLayout(false);
             this.Panel_Bluetooth_Connection.ResumeLayout(false);
-            this.Panel_Bluetooth_Connection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Numeric_COM_Port)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -196,12 +213,13 @@ namespace MAT_script_runner
         private System.Windows.Forms.Panel Panel_Home;
         private System.Windows.Forms.Panel Panel_Bluetooth_Connection;
         private System.Windows.Forms.Label COM_Port_Label;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button Form2_Back_Button;
         private System.Windows.Forms.Button Button_Start_Bluetooth_Connection;
         private System.Windows.Forms.Button Button_Directory_Settings;
         private System.Windows.Forms.Button Button_Open_Folders;
         private System.Windows.Forms.Button Button_Filename_Formatting;
+        private System.Windows.Forms.NumericUpDown Numeric_COM_Port;
+        private System.Windows.Forms.Timer Timer_Receive_Samples;
     }
 }
 

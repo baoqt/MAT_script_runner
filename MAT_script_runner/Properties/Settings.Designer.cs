@@ -37,30 +37,6 @@ namespace MAT_script_runner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\Output\\")]
-        public string OutputDirectory {
-            get {
-                return ((string)(this["OutputDirectory"]));
-            }
-            set {
-                this["OutputDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Block")]
-        public string GestureName {
-            get {
-                return ((string)(this["GestureName"]));
-            }
-            set {
-                this["GestureName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int ParticipantNumber {
             get {
@@ -80,6 +56,54 @@ namespace MAT_script_runner.Properties {
             }
             set {
                 this["TrialNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Block")]
+        public string GestureName {
+            get {
+                return ((string)(this["GestureName"]));
+            }
+            set {
+                this["GestureName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Output\\")]
+        public string OutputDirectory {
+            get {
+                return ((string)(this["OutputDirectory"]));
+            }
+            set {
+                this["OutputDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Scripts\\")]
+        public string ScriptDirectory {
+            get {
+                return ((string)(this["ScriptDirectory"]));
+            }
+            set {
+                this["ScriptDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int COMPort {
+            get {
+                return ((int)(this["COMPort"]));
+            }
+            set {
+                this["COMPort"] = value;
             }
         }
     }

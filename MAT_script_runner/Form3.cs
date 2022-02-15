@@ -26,12 +26,14 @@ namespace MAT_script_runner
             Properties.Settings.Default.TrialNumber = (int) Numeric_Trial.Value;
             Properties.Settings.Default.Save();
 
-            this.Visible = false;
+            this.Dispose();
+            this.Close();
         }
 
         private void Button_Filename_Cancel_Click(object sender, EventArgs e)
-        {
-            this.Visible = false;
+        {           
+            this.Dispose();
+            this.Close();
         }
 
      
