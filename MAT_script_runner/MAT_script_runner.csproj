@@ -21,6 +21,50 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Quaternions\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="func_jerk_dim.m" />
+    <None Remove="func_SAL.m" />
+    <None Remove="jointangle_sagittal_upperlimb.m" />
+    <None Remove="Master_XZ_Bao_06072021.m" />
+    <None Remove="peakdet.m" />
+    <None Remove="SensorKinematicsE_block.m" />
+    <None Remove="SensorKinematicsE_block_auto.m" />
+    <None Remove="TenaSensor2_BlockTask_ViconData.m" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="func_jerk_dim.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="func_SAL.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="jointangle_sagittal_upperlimb.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Master_XZ_Bao_06072021.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="peakdet.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SensorKinematicsE_block.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SensorKinematicsE_block_auto.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TenaSensor2_BlockTask_ViconData.m">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
     <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
