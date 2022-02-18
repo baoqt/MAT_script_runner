@@ -49,7 +49,7 @@ namespace MAT_script_runner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int TrialNumber {
             get {
                 return ((int)(this["TrialNumber"]));

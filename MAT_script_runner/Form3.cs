@@ -28,6 +28,8 @@ namespace MAT_script_runner
 
             this.Dispose();
             this.Close();
+
+
         }
 
         private void Button_Filename_Cancel_Click(object sender, EventArgs e)
@@ -35,7 +37,5 @@ namespace MAT_script_runner
             this.Dispose();
             this.Close();
         }
-
-     
     }
 }

@@ -15,16 +15,16 @@ namespace MAT_script_runner
 {
     public partial class MAT_Script_Runner : Form
     {
-        public static string InputDirectory = Properties.Settings.Default.InputDirectory;
-        public static string OutputDirectory = Properties.Settings.Default.OutputDirectory;
+        MLApp.MLApp matlab;
+        bool matInitialized = false;
         StreamWriter stream;
 
-        MLApp.MLApp matlab = new MLApp.MLApp();
         static SerialPort comPort = new SerialPort();
 
         public MAT_Script_Runner()
         {
             InitializeComponent();
+
             Numeric_COM_Port.Value = Properties.Settings.Default.COMPort;
         }
 
@@ -33,27 +33,22 @@ namespace MAT_script_runner
             Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
             Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
 
-            if (InputDirectory != "")
-            {
-                Process.Start("explorer.exe", Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
-            }
 
-            if (OutputDirectory != "")
-            {
-                Process.Start("explorer.exe", Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
-            }
+            Process.Start("explorer.exe", Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
+            Process.Start("explorer.exe", Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
+
         }
 
         private void Button_Filename_Formatting_Click(object sender, EventArgs e)
         {
             Filename_Formatting filename_formatting = new Filename_Formatting();
-            filename_formatting.Visible = true;
+            filename_formatting.ShowDialog();
         }
 
         private void Button_Directory_Settings_Click(object sender, EventArgs e)
         {
             Directory_Settings directory_settings = new Directory_Settings();
-            directory_settings.Visible = true;
+            directory_settings.ShowDialog();
         }
 
         private void Button_TCPIP_Connection_Click(object sender, EventArgs e)
@@ -62,6 +57,8 @@ namespace MAT_script_runner
 
         private void Button_Bluetooth_Connection_Click(object sender, EventArgs e)
         {
+            Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+
             Panel_Home.Visible = false;
             Panel_Bluetooth_Connection.Visible = true;
         }
@@ -81,6 +78,9 @@ namespace MAT_script_runner
                     if (!comPort.IsOpen)
                     {
                         comPort.Open();
+
+                        Label_Status.Text = "Recording";
+                        Label_Status.ForeColor = Color.LimeGreen;
                     }
                 }
                 catch (Exception ex)
@@ -88,20 +88,17 @@ namespace MAT_script_runner
                     MessageBox.Show(ex.Message + "\n\nCannot open COM port, check your COM port number.");
                 }
 
-                
-
                 if (comPort.IsOpen)
                 {
                     Button_Start_Bluetooth_Connection.Text = "Stop Bluetooth Connection";
 
                     Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
                     Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
-                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" + 
+                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
                         Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
 
                     Timer_Receive_Samples.Enabled = true;
                 }
-                
             }
             else
             {
@@ -111,23 +108,34 @@ namespace MAT_script_runner
                 {
                     comPort.Close();
                     stream.Close();
-                }
+
+                    Label_Status.Text = "Standby";
+                    Label_Status.ForeColor = Color.Gray;
+            }
                 catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + "\n\nError closing COM port.");
-                }
+            {
+                MessageBox.Show(ex.Message + "\n\nError closing COM port.");
+            }
 
                 if (!comPort.IsOpen)
                 {
                     Timer_Receive_Samples.Enabled = false;
 
-                    matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
-                    object result = null;
-                    matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
-                        Properties.Settings.Default.InputDirectory, Properties.Settings.Default.OutputDirectory, Properties.Settings.Default.GestureName, 
-                        Properties.Settings.Default.ParticipantNumber, Properties.Settings.Default.TrialNumber, 0, 0, 0, 0, 0, 0);
+                    if (Checkbox_Auto_Execute.Checked)
+                    {
+                            matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
+                            object result = null;
+                            matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                Properties.Settings.Default.InputDirectory, Properties.Settings.Default.OutputDirectory, Properties.Settings.Default.GestureName,
+                                Properties.Settings.Default.ParticipantNumber, Properties.Settings.Default.TrialNumber, 0, 0, Checkbox_Plot_Mode.Checked ? 1 : 0, 0, 0, 0);
+                    }
 
-                    Properties.Settings.Default.TrialNumber++;
+                    if (Checkbox_Auto_Increment.Checked)
+                    {
+                        Properties.Settings.Default.TrialNumber++;
+                    }
+                    
+                    Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
                     Properties.Settings.Default.Save();
                 }
             }
@@ -150,19 +158,39 @@ namespace MAT_script_runner
             Properties.Settings.Default.Save();
         }
 
+        private void Checkbox_Auto_Execute_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!matInitialized)
+            {
+                try
+                {
+                    matInitialized = true;
+                    matlab = new MLApp.MLApp();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "\nError Opening MATLAB Command Window.");
+                }
+                
+            }
+        }
+
         private void Timer_Receive_Samples_Tick(object sender, EventArgs e)
         {
             try
             {
-                    //char[] buffer = new char[3000];
-                    //comPort.Read(buffer, 0, 3000);
-                    //stream.Write(buffer);
-                    stream.Write(comPort.ReadExisting());
+                stream.Write(comPort.ReadExisting());
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void Numeric_Quick_Trial_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.TrialNumber = (int) Numeric_Quick_Trial.Value;
+            Properties.Settings.Default.Save();
         }
     }
 }
