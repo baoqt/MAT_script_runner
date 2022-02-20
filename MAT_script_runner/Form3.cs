@@ -19,6 +19,19 @@ namespace MAT_script_runner
             Numeric_Trial.Value = Properties.Settings.Default.TrialNumber;
         }
 
+        private MAT_Script_Runner mainForm;
+
+        public Filename_Formatting(Form callingForm)
+        {
+            mainForm = callingForm as MAT_Script_Runner;
+
+            InitializeComponent();
+
+            Textbox_Gesture.Text = Properties.Settings.Default.GestureName;
+            Numeric_Participant.Value = Properties.Settings.Default.ParticipantNumber;
+            Numeric_Trial.Value = Properties.Settings.Default.TrialNumber;
+        }
+
         private void Button_Filename_Save_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.GestureName = Textbox_Gesture.Text;
@@ -26,10 +39,10 @@ namespace MAT_script_runner
             Properties.Settings.Default.TrialNumber = (int) Numeric_Trial.Value;
             Properties.Settings.Default.Save();
 
+            mainForm.Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+
             this.Dispose();
             this.Close();
-
-
         }
 
         private void Button_Filename_Cancel_Click(object sender, EventArgs e)

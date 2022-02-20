@@ -1,9 +1,6 @@
 
 
-function [outcome] = SensorKinematicsE_block(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, manTrimLeft, manTrimRight, plot_mode, stationaryThreshold, kpStat, kpMove)
-
-%Activity: 1 Block, 2 Drink (Soda Can), 3 Water (Water Pouring), 4 for
-%BicepCurls
+function [outcome] = SensorKinematicsE_block_auto(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, manTrimLeft, manTrimRight, plot_mode, stationaryThreshold, kpStat, kpMove)
 
 %% Import Libraries
 addpath('Quaternions');
@@ -25,8 +22,9 @@ ImaxAccel = 0;  ImeanAccel = 0;   stdAccel = 0;
 TimeFromOnsetToLastPeak = 0;   TimeFromOnsetToFirstPeak =0;
 TimeFromOnsetToHighestPeak = 0;   TimeFromOnsetToLowestPeak = 0;
 
-if stationaryThreshold <= 0                     % assign defaults if specified in argumentss
-    stationaryThreshold = 0.0025;                % 0.02
+%% Assign defaults if specified in arguments
+if stationaryThreshold <= 0                     
+    stationaryThreshold = 0.0025;               
 end
 
 if kpStat == 0
@@ -46,7 +44,7 @@ TrialNum = int2str(TrialNumInt);
 
 %% IMU Data Entry (Paste Data or Read From File)
 % Load IMU File
-data = csvread(strcat(InputPath, '\', GestureName, '\', SubjectNum, '_', TrialNum, '.csv'), 0,1); % IMU file name will have one '_'
+data = csvread(strcat(InputPath, '\', SubjectNum, '_', TrialNum, '.csv'), 0,1); % IMU file name will have one '_'
 data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
 
         %% Pre-Processing Filter
@@ -60,7 +58,6 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
 
     g = 9.81;
     
-    axTemp = (data2(:,1)/g);
     ayTemp = (data2(:,2)/g);
     azTemp = (data2(:,3)/g+1);
     
@@ -79,38 +76,10 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     end
     trimTemp2 = min([find( abs(ac1_mag(trimTemp1:end)-1)>0.1,1,'last')+trimTemp1 length(data2)] );
     trimTemp3 = min([find( abs(ac1_mag(trimTemp2:end)-1)<0.02,1,'last')+trimTemp2 length(data2)] );
-    trimRight = min([find( abs(ac1_mag((trimTemp2+100):trimTemp3)-1)<0.0025,1,'last')+trimTemp2 length(data2)] );
-    
-    if plot_mode == 1
-        f300 = figure(300);
-        f300.Visible = 'off';
-        clf;
-        subplot(2,1,1)
-        plot( ac1_mag , 'k')
-        hold on;
-        plot( data2(:,1)/g, 'r');
-        plot( data2(:,2)/g, 'g');
-        plot( data2(:,3)/g+1, 'b');
-        plot(trimLeft, ac1_mag(trimLeft), 'g*', 'MarkerSize',20);
-        plot(trimRight, ac1_mag(trimRight), 'r*', 'MarkerSize',20);
-        plot(trimTempL1, ac1_mag(trimTempL1), 'ko' , 'MarkerSize',20);
-        plot(trimTemp1, ac1_mag(trimTemp1), 'bo' , 'MarkerSize',20);
-        plot(trimTemp2, ac1_mag(trimTemp2), 'go' , 'MarkerSize',20);
-        plot(trimTemp3, ac1_mag(trimTemp3), 'ro' , 'MarkerSize',20);
-        legend('Raw A Resultant Magnitude', 'Raw Ax', 'Raw Ay', 'Raw Az',  'Left Trim' , 'Right Trim', 'TempL1','TempR1', 'TempR2', 'TempR3')
-        
-        subplot(2,1,2)
-        hold on;
-        plot(abs(ac1_mag-1))
-        legend('abs(A Resultant Magnitude)-1')
-            
-    end
+    trimRight = min([find( abs(ac1_mag((trimTemp2+100):trimTemp3)-1)<0.0025,1,'last')+trimTemp2 length(data2)]);
     
     data = data(trimLeft:trimRight,:);
     data2 = data2(trimLeft:trimRight,:);
-    axTemp = axTemp(trimLeft:trimRight,:);
-    ayTemp = ayTemp(trimLeft:trimRight,:);
-    axTemp = azTemp(trimLeft:trimRight,:);
     
     gyrXTemp = gyrXTemp(trimLeft:trimRight,:);
     gyrYTemp = gyrYTemp(trimLeft:trimRight,:);
@@ -198,39 +167,7 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     mt_imu_with_stationary = r-l;
     
     stationary(l:r) = acc_magFilt(l:r) < stationaryThreshold;
-    
-    if plot_mode == 1
-        % -------------------------------------------------------------------------
-        % Plot data raw sensor data and stationary periods
-        f1 = figure(1);
-        clf;
-        f1.Visible = 'off';
-        f1.Name = 'Raw IMU Sensor Data';
-        
-        ax(1) = subplot(2,1,1);
-        hold on;
-        plot(time, gyrX, 'r');
-        plot(time, gyrY, 'g');
-        plot(time, gyrZ, 'b');
-        title('Gyroscope');
-        xlabel('Time (s)');
-        ylabel('Angular velocity (^\circ/s)');
-        legend('X', 'Y', 'Z');
-        hold off;
-        ax(2) = subplot(2,1,2);
-        hold on;
-        plot(time, accX, 'r');
-        plot(time, accY, 'g');
-        plot(time, accZ, 'b');
-        plot(time, acc_magFilt, ':k');
-        plot(time, stationary, 'k', 'LineWidth', 2);
-        title('Accelerometer');
-        xlabel('Time (s)');
-        ylabel('Acceleration (g)');
-        legend('X', 'Y', 'Z', 'Filtered', 'Stationary');
-        hold off;
-        linkaxes(ax,'x');
-    end
+  
     % -------------------------------------------------------------------------
     % Compute orientation
     
@@ -295,88 +232,19 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     
     % Remove integral drift
     vel = vel - velDrift;    
-    
-    if plot_mode == 1
-        f3 = figure(3);
-        clf;
-        f3.Visible = 'off';
-        f3.Name = 'IMU Velocity and Position';
-        subplot (2,1,1); hold on;
-        plot(time, acc(:,1), 'r');
-        plot(time, acc(:,2), 'g');
-        plot(time, acc(:,3), 'b');
-        title('Acceleration');
-        xlabel('Time (s)');
-        ylabel('Acceleration (m/s/s)');
-        legend('X', 'Y', 'Z');
-        hold off;
-        
-        subplot (2,1,2)
-        hold on;
-        plot(time, vel(:,1), 'r');hold on;
-        plot(time, vel(:,2), 'g');hold on;
-        plot(time, vel(:,3), 'b');hold on;
-        title('Velocity');
-        xlabel('Time (s)');
-        ylabel('Velocity (m/s)');
-        legend('X', 'Y', 'Z');
-        hold off;
-        
-    end
-    
-    % -------------------------------------------------------------------------
-    % Compute translational position
-    
-    % Integrate velocity to yield position
-    pos = zeros(size(vel));
-    for t = 2:length(pos)
-        pos(t,:) = pos(t-1,:) + vel(t,:) * samplePeriod;    % integrate velocity to yield position
-    end
-    
-    % -------------------------------------------------------------------------
-    % Plot 3D  trajectory
-    
-    % % Remove stationary periods from data to plot
-    posPlot = pos;
-    quatPlot = quat;
-    
-    % Extend final sample to delay end of animation
-    extraTime = 20;
-    onesVector = ones(extraTime*(1/samplePeriod), 1);
-    posPlot = [posPlot; [posPlot(end, 1)*onesVector, posPlot(end, 2)*onesVector, posPlot(end, 3)*onesVector]];
-    quatPlot = [quatPlot; [quatPlot(end, 1)*onesVector, quatPlot(end, 2)*onesVector, quatPlot(end, 3)*onesVector, quatPlot(end, 4)*onesVector]];
-    
+
     %% Assigning Filtered IMU Data to new variable.
     
     IMU_vx = vel(:,1);
     IMU_vy = vel(:,2);
     IMU_vz = vel(:,3);
-    
-    IMU_ax = acc(:,1);
-    IMU_ay = acc(:,2);
-    IMU_az = acc(:,3);
         
     %% Data import, Domenico's Filter, and length correction happen above.
-    
-    IMUA =  sqrt(IMU_ax.^2 + IMU_ay.^2 + IMU_az.^2);
-    
-%     if plot_mode == 1
-%         f69 = figure(69);
-%         clf;
-%         f69.Visible = 'off';
-%         f69.Name = 'Sensor Data: Accelerations';
-%         plot(IMUA)
-%         title(strcat('Subject: ', int2str(SubjectNumInt), ' Trial: ', int2str(TrialNumInt),' Accelerations'));
-%         legend('IMU');
-%     end
-    
-    IMUV = (sqrt(IMU_vx.^2 + IMU_vy.^2 +IMU_vz.^2));
-    
+        
+    IMUV = (sqrt(IMU_vx.^2 + IMU_vy.^2 +IMU_vz.^2)); 
     
     if IMUV(10) > 0.1 || IMUV(end) > 0.1
-        errorVelocity = 1;
-        strcat('Error: Possible Bad Velocity Signals Calculated for Subject: ', int2str(SubjectNumInt), ' Trial: ', int2str(TrialNumInt)) %Prints the error message to the command window.
-        
+        strcat('Error: Possible Bad Velocity Signals Calculated for Subject: ', int2str(SubjectNumInt), ' Trial: ', int2str(TrialNumInt)) %Prints the error message to the command window.   
     end
     
     peakdetThres = 0.1;
@@ -419,26 +287,10 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     if (length(maxtab_IMUV) > 5)
        fprintf('Unexpected number of peaks, possible gesture data error?\n');   % Depending on gesture, determine if warning needed
     end
-    
-%     if plot_mode == 1
-%         
-%         f68 = figure(68);
-%         clf;
-%         f68.Visible = 'off';
-%         f68.Name = 'Sensor Data: Velocities';
-%         hold on;
-%         
-%     end
-    
-    %IMU
-    
-    if plot_mode == 1
-        plot (IMUV, 'b'); hold on
-        plot(maxtab_IMUV(:,1), maxtab_IMUV(:,2), 'k*');hold on; title(strcat('Subject: ', int2str(SubjectNumInt), ' Trial: ', int2str(TrialNumInt),' Resultant Velocity'));
-    end
+   
     
     MinDuration = 50;
-    
+    %try
     %Onset
     if any(IMUV(maxtab_IMUV(1,1):-1:1)<maxtab_IMUV(1,2)*0.01)
         for onset_IMUV = maxtab_IMUV(1,1):-1:1
@@ -504,56 +356,15 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         [s, loc_offset_IMUV] = min(IMUV(maxtab_IMUV(sizeMaxtab(1),1):1:length(IMUV)-1));
         offset_IMUV = loc_offset_IMUV + maxtab_IMUV(sizeMaxtab(1),1) -1;
     end
-    
-    if plot_mode == 1
-        plot(onset_IMUV, IMUV(onset_IMUV), 'r*');
-        plot(offset_IMUV, IMUV(offset_IMUV), 'r*');
-        legend('IMU', 'IMU Peak' , 'IMU Onset', 'IMU Offset');
-    end
       
     %% Trim Time Series
     %Plot Overall
     trimI = IMUV(onset_IMUV:offset_IMUV);
-%    csvwrite(strcat('DataGondar/Output/velocity.csv'),trimI);
-    
-    if plot_mode == 1
-        f70 = figure(70);
-        clf;
-        f70.Name = 'Trimmed Resultant Data';
-        f70.Visible = 'off';
-        hold on; plot(trimI * 10, 'linewidth', 2)
-        title('Resultant Velocity');
-        legend('IMU');
-    end
-    
-    %Trim all axes for IMU
-    trimIx = IMU_vx(onset_IMUV:offset_IMUV);
-    trimIy = IMU_vy(onset_IMUV:offset_IMUV);
-    trimIz = IMU_vz(onset_IMUV:offset_IMUV);
-     
-    %----------------------------Kinematic Variables-------------------
-    %Movement Time
-    mtimu = (offset_IMUV-onset_IMUV); %value depends on sampling rate
-    
-    %Movement Smoothness
-    salimu = func_SAL(trimIx, trimIy, trimIz);
-    [jerkimu_dim,jerkimu_dim_log] = func_jerk_dim(trimIx, trimIy, trimIz);
-    
-    %Max Velocity
-    ImaxVel = max(IMUV);
-    
-    %Max Acceleration
-    ImaxAccel = max(IMUA);
-    
-    %Mean Acceleration
-    ImeanAccel = mean(IMUA(onset_IMUV:offset_IMUV));
-    
-    %Mean Velocity
-    ImeanVelocity = mean(IMUV(onset_IMUV:offset_IMUV));
-    
-    %Variability of Mean Accel
-    stdAccel = std2(IMUA(onset_IMUV:offset_IMUV));
-      
+    writematrix(trimI, strcat(OutputPath, '\Velocity_', SubjectNum, '_', TrialNum, '.csv'));
+    %catch
+    %    disp(strcat("Trial ", TrialNum, ": Significant error, check raw data."));
+    %end
+
     try  
         peakLoc = maxtab_IMUV(:,1);
         peakValues = maxtab_IMUV(:,2);
@@ -564,33 +375,54 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         peak1 = peakLoc(find(peakValues == temp(1), 1 ,'first'));
         peak2 = peakLoc(find(peakValues == temp(2), 1 ,'first'));
         peak3 = peakLoc(find(peakValues == temp(3), 1 ,'first'));
-                     
-        %Time From Onset to Peaks (for Velocity)
-        TimeFromOnsetToLastPeak = max([peak1 peak2 peak3])-onset_IMUV;
-        TimeFromOnsetToFirstPeak = min([peak1 peak2 peak3])-onset_IMUV;
-
-        TimeFromOnsetToHighestPeak =  peakLoc(find(peakValues == max(temp), 1 ,'first'))-onset_IMUV;
-        TimeFromOnsetToLowestPeak =  peakLoc(find(peakValues == min(temp), 1 ,'first'))-onset_IMUV;
     catch ME                     % Need to rerun script with lower stationary threshold?
         strcat('Error: 3 Peaks Not Detected.  Subject: ', int2str(SubjectNumInt), ' Trial: ', int2str(TrialNumInt)) %Prints the error message to the command window.
     end
-        
-    outcome = [SubjectNumInt, TrialNumInt, salimu, mtimu,  jerkimu_dim,  jerkimu_dim_log, ImaxVel, ImeanVelocity, ImaxAccel,  ImeanAccel,   stdAccel, TimeFromOnsetToLastPeak,   TimeFromOnsetToFirstPeak,    TimeFromOnsetToHighestPeak,   TimeFromOnsetToLowestPeak, corrvaluex, RMSE, errorVelocity, errorScript];
-    csvwrite(strcat(OutputPath, '\', GestureName, '\', SubjectNum, '_', TrialNum, '.csv'),outcome);
 
 if plot_mode == 1
-    
+    % -------------------------------------------------------------------------
+        % Plot data raw sensor data and stationary periods
+        f1 = figure(1);
+        clf;
+        f1.Visible = 'off';
+        f1.Name = 'Raw IMU Sensor Data';
+        
+        ax(1) = subplot(2,1,1);
+        hold on;
+        plot(time, gyrX, 'r');
+        plot(time, gyrY, 'g');
+        plot(time, gyrZ, 'b');
+        title('Gyroscope');
+        xlabel('Time (s)');
+        ylabel('Angular velocity (^\circ/s)');
+        legend('X', 'Y', 'Z');
+        hold off;
+        ax(2) = subplot(2,1,2);
+        hold on;
+        plot(time, accX, 'r');
+        plot(time, accY, 'g');
+        plot(time, accZ, 'b');
+        plot(time, acc_magFilt, ':k');
+        plot(time, stationary, 'k', 'LineWidth', 2);
+        title('Accelerometer');
+        xlabel('Time (s)');
+        ylabel('Acceleration (g)');
+        legend('X', 'Y', 'Z', 'Filtered', 'Stationary');
+        hold off;
+        linkaxes(ax,'x');
+
     f1.Visible='on';
-%    f3.Visible='on';
-%    f68.Visible = 'on';
-%    f300.Visible = 'on';
-    
-%    f69.Visible='on';
+    f1.Position = [50, 100, 560, 425];
+
+    f70 = figure(70);
+    clf;
+    f70.Name = 'Trimmed Resultant Data';
+    f70.Visible = 'off';
+    hold on; plot(trimI * 10, 'linewidth', 2)
+    title('Resultant Velocity');
+    legend('IMU');
+
     f70.Visible = 'on';
-    
-%   f68 = figure(68);
-%   f68.Position = [360 278 700 942];
-    
-%    saveas(f68,strcat('DataGondar/OutputFigures/Block/Subject ', int2str(SubjectNumInt), ' Trial ', int2str(TrialNumInt),' Resultant Velocity.png'))
+    f70.Position = [625, 100, 560, 425];
 end
 

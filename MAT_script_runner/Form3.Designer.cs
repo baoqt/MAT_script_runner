@@ -57,7 +57,7 @@ namespace MAT_script_runner
             this.Textbox_Gesture.Location = new System.Drawing.Point(137, 6);
             this.Textbox_Gesture.Name = "Textbox_Gesture";
             this.Textbox_Gesture.Size = new System.Drawing.Size(269, 23);
-            this.Textbox_Gesture.TabIndex = 1;
+            this.Textbox_Gesture.TabIndex = 2;
             // 
             // label2
             // 
@@ -82,7 +82,7 @@ namespace MAT_script_runner
             this.Button_Filename_Save.Location = new System.Drawing.Point(89, 108);
             this.Button_Filename_Save.Name = "Button_Filename_Save";
             this.Button_Filename_Save.Size = new System.Drawing.Size(75, 23);
-            this.Button_Filename_Save.TabIndex = 6;
+            this.Button_Filename_Save.TabIndex = 0;
             this.Button_Filename_Save.Text = "Save";
             this.Button_Filename_Save.UseVisualStyleBackColor = true;
             this.Button_Filename_Save.Click += new System.EventHandler(this.Button_Filename_Save_Click);
@@ -93,7 +93,7 @@ namespace MAT_script_runner
             this.Button_Filename_Cancel.Location = new System.Drawing.Point(254, 108);
             this.Button_Filename_Cancel.Name = "Button_Filename_Cancel";
             this.Button_Filename_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.Button_Filename_Cancel.TabIndex = 7;
+            this.Button_Filename_Cancel.TabIndex = 1;
             this.Button_Filename_Cancel.Text = "Cancel";
             this.Button_Filename_Cancel.UseVisualStyleBackColor = true;
             this.Button_Filename_Cancel.Click += new System.EventHandler(this.Button_Filename_Cancel_Click);
@@ -103,19 +103,21 @@ namespace MAT_script_runner
             this.Numeric_Participant.Location = new System.Drawing.Point(137, 31);
             this.Numeric_Participant.Name = "Numeric_Participant";
             this.Numeric_Participant.Size = new System.Drawing.Size(269, 23);
-            this.Numeric_Participant.TabIndex = 8;
+            this.Numeric_Participant.TabIndex = 3;
             // 
             // Numeric_Trial
             // 
             this.Numeric_Trial.Location = new System.Drawing.Point(137, 55);
             this.Numeric_Trial.Name = "Numeric_Trial";
             this.Numeric_Trial.Size = new System.Drawing.Size(269, 23);
-            this.Numeric_Trial.TabIndex = 9;
+            this.Numeric_Trial.TabIndex = 4;
             // 
             // Filename_Formatting
             // 
+            this.AcceptButton = this.Button_Filename_Save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.Button_Filename_Cancel;
             this.ClientSize = new System.Drawing.Size(418, 136);
             this.Controls.Add(this.Numeric_Trial);
             this.Controls.Add(this.Numeric_Participant);

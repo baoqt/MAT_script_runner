@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="AHRS.m" />
+    <None Remove="centdiff.m" />
+    <None Remove="countdown.wav" />
     <None Remove="func_jerk_dim.m" />
     <None Remove="func_SAL.m" />
     <None Remove="jointangle_sagittal_upperlimb.m" />
@@ -34,33 +37,41 @@
     <None Remove="peakdet.m" />
     <None Remove="SensorKinematicsE_block.m" />
     <None Remove="SensorKinematicsE_block_auto.m" />
+    <None Remove="Sensor_Vicon_Batch.m" />
     <None Remove="TenaSensor2_BlockTask_ViconData.m" />
+    <None Remove="TenaSensor2_BlockTask_ViconData_auto.m" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="AHRS.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="centdiff.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="countdown.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="func_jerk_dim.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="func_SAL.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="jointangle_sagittal_upperlimb.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Master_XZ_Bao_06072021.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="peakdet.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SensorKinematicsE_block.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SensorKinematicsE_block_auto.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TenaSensor2_BlockTask_ViconData.m">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Sensor_Vicon_Batch.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TenaSensor2_BlockTask_ViconData_auto.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

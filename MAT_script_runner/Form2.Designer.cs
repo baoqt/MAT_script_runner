@@ -47,7 +47,7 @@ namespace MAT_script_runner
             this.Textbox_Input_Directory.Location = new System.Drawing.Point(12, 28);
             this.Textbox_Input_Directory.Name = "Textbox_Input_Directory";
             this.Textbox_Input_Directory.Size = new System.Drawing.Size(479, 23);
-            this.Textbox_Input_Directory.TabIndex = 0;
+            this.Textbox_Input_Directory.TabIndex = 2;
             // 
             // label1
             // 
@@ -63,7 +63,7 @@ namespace MAT_script_runner
             this.Textbox_Output_Directory.Location = new System.Drawing.Point(12, 72);
             this.Textbox_Output_Directory.Name = "Textbox_Output_Directory";
             this.Textbox_Output_Directory.Size = new System.Drawing.Size(479, 23);
-            this.Textbox_Output_Directory.TabIndex = 2;
+            this.Textbox_Output_Directory.TabIndex = 4;
             // 
             // Button_Browse_Input
             // 
@@ -80,7 +80,7 @@ namespace MAT_script_runner
             this.Button_Output_Browse.Location = new System.Drawing.Point(499, 72);
             this.Button_Output_Browse.Name = "Button_Output_Browse";
             this.Button_Output_Browse.Size = new System.Drawing.Size(75, 23);
-            this.Button_Output_Browse.TabIndex = 4;
+            this.Button_Output_Browse.TabIndex = 5;
             this.Button_Output_Browse.Text = "Browse";
             this.Button_Output_Browse.UseVisualStyleBackColor = true;
             this.Button_Output_Browse.Click += new System.EventHandler(this.Button_Output_Browse_Click);
@@ -100,7 +100,7 @@ namespace MAT_script_runner
             this.Button_Directory_Save.Location = new System.Drawing.Point(170, 173);
             this.Button_Directory_Save.Name = "Button_Directory_Save";
             this.Button_Directory_Save.Size = new System.Drawing.Size(75, 23);
-            this.Button_Directory_Save.TabIndex = 6;
+            this.Button_Directory_Save.TabIndex = 0;
             this.Button_Directory_Save.Text = "Save";
             this.Button_Directory_Save.UseVisualStyleBackColor = true;
             this.Button_Directory_Save.Click += new System.EventHandler(this.Button_Directory_Save_Click);
@@ -111,7 +111,7 @@ namespace MAT_script_runner
             this.Button_Directory_Cancel.Location = new System.Drawing.Point(341, 173);
             this.Button_Directory_Cancel.Name = "Button_Directory_Cancel";
             this.Button_Directory_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.Button_Directory_Cancel.TabIndex = 7;
+            this.Button_Directory_Cancel.TabIndex = 1;
             this.Button_Directory_Cancel.Text = "Cancel";
             this.Button_Directory_Cancel.UseVisualStyleBackColor = true;
             this.Button_Directory_Cancel.Click += new System.EventHandler(this.Button_Directory_Cancel_Click);
@@ -130,22 +130,24 @@ namespace MAT_script_runner
             this.Textbox_Script_Directory.Location = new System.Drawing.Point(12, 116);
             this.Textbox_Script_Directory.Name = "Textbox_Script_Directory";
             this.Textbox_Script_Directory.Size = new System.Drawing.Size(479, 23);
-            this.Textbox_Script_Directory.TabIndex = 9;
+            this.Textbox_Script_Directory.TabIndex = 6;
             // 
             // Button_Script_Browse
             // 
             this.Button_Script_Browse.Location = new System.Drawing.Point(499, 116);
             this.Button_Script_Browse.Name = "Button_Script_Browse";
             this.Button_Script_Browse.Size = new System.Drawing.Size(75, 23);
-            this.Button_Script_Browse.TabIndex = 10;
+            this.Button_Script_Browse.TabIndex = 7;
             this.Button_Script_Browse.Text = "Browse";
             this.Button_Script_Browse.UseVisualStyleBackColor = true;
             this.Button_Script_Browse.Click += new System.EventHandler(this.Button_Script_Browse_Click);
             // 
             // Directory_Settings
             // 
+            this.AcceptButton = this.Button_Directory_Save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.Button_Directory_Cancel;
             this.ClientSize = new System.Drawing.Size(584, 211);
             this.Controls.Add(this.Button_Script_Browse);
             this.Controls.Add(this.Textbox_Script_Directory);

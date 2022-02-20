@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,12 +21,14 @@ namespace MAT_script_runner
         StreamWriter stream;
 
         static SerialPort comPort = new SerialPort();
+        SoundPlayer countdown = new SoundPlayer(@"countdown.wav");
 
         public MAT_Script_Runner()
         {
             InitializeComponent();
 
             Numeric_COM_Port.Value = Properties.Settings.Default.COMPort;
+            Numeric_Quick_Trial.Maximum = Decimal.MaxValue;
         }
 
         private void Button_Open_Folders_Click(object sender, EventArgs e)
@@ -33,15 +36,13 @@ namespace MAT_script_runner
             Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
             Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
 
-
             Process.Start("explorer.exe", Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
             Process.Start("explorer.exe", Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
-
         }
 
         private void Button_Filename_Formatting_Click(object sender, EventArgs e)
         {
-            Filename_Formatting filename_formatting = new Filename_Formatting();
+            Filename_Formatting filename_formatting = new Filename_Formatting(this);
             filename_formatting.ShowDialog();
         }
 
@@ -60,7 +61,7 @@ namespace MAT_script_runner
             Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
 
             Panel_Home.Visible = false;
-            Panel_Bluetooth_Connection.Visible = true;
+            Panel_Connection.Visible = true;
         }
 
         private void Button_Start_Bluetooth_Connection_Click(object sender, EventArgs e)
@@ -90,6 +91,11 @@ namespace MAT_script_runner
 
                 if (comPort.IsOpen)
                 {
+                    if (Checkbox_Voice.Checked == true)
+                    {
+                        countdown.Play();
+                    }
+
                     Button_Start_Bluetooth_Connection.Text = "Stop Bluetooth Connection";
 
                     Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
@@ -144,7 +150,7 @@ namespace MAT_script_runner
         private void Button_Bluetooth_Back_Click(object sender, EventArgs e)
         {
             Panel_Home.Visible = true;
-            Panel_Bluetooth_Connection.Visible = false;
+            Panel_Connection.Visible = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
