@@ -54,6 +54,7 @@ namespace MAT_script_runner
 
         private void Button_TCPIP_Connection_Click(object sender, EventArgs e)
         {
+            Panel_Controls.Enabled = !Panel_Controls.Enabled;
         }
 
         private void Button_Bluetooth_Connection_Click(object sender, EventArgs e)
@@ -97,6 +98,7 @@ namespace MAT_script_runner
                     }
 
                     Button_Start_Bluetooth_Connection.Text = "Stop Bluetooth Connection";
+                    Panel_Controls.Enabled = false;
 
                     Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
                     Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
@@ -109,6 +111,7 @@ namespace MAT_script_runner
             else
             {
                 Button_Start_Bluetooth_Connection.Text = "Start Bluetooth Connection";
+                Panel_Controls.Enabled = true;
 
                 try
                 {

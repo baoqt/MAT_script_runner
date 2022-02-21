@@ -40,17 +40,17 @@ namespace MAT_script_runner
             this.Button_Open_Folders = new System.Windows.Forms.Button();
             this.Button_Directory_Settings = new System.Windows.Forms.Button();
             this.Panel_Controls = new System.Windows.Forms.Panel();
+            this.Checkbox_Voice = new System.Windows.Forms.CheckBox();
             this.Checkbox_Plot_Mode = new System.Windows.Forms.CheckBox();
-            this.Label_Status = new System.Windows.Forms.Label();
             this.Checkbox_Auto_Execute = new System.Windows.Forms.CheckBox();
             this.Checkbox_Auto_Increment = new System.Windows.Forms.CheckBox();
             this.Numeric_Quick_Trial = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.COM_Port_Label = new System.Windows.Forms.Label();
             this.Numeric_COM_Port = new System.Windows.Forms.NumericUpDown();
+            this.Label_Status = new System.Windows.Forms.Label();
             this.Timer_Receive_Samples = new System.Windows.Forms.Timer(this.components);
             this.Panel_Settings = new System.Windows.Forms.Panel();
-            this.Checkbox_Voice = new System.Windows.Forms.CheckBox();
             this.Panel_Home.SuspendLayout();
             this.Panel_Connection.SuspendLayout();
             this.Panel_Controls.SuspendLayout();
@@ -96,10 +96,12 @@ namespace MAT_script_runner
             // 
             // Panel_Connection
             // 
+            this.Panel_Connection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel_Connection.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Panel_Connection.Controls.Add(this.Button_Start_Bluetooth_Connection);
             this.Panel_Connection.Controls.Add(this.Form2_Back_Button);
-            this.Panel_Connection.Location = new System.Drawing.Point(0, 230);
+            this.Panel_Connection.Location = new System.Drawing.Point(0, 251);
             this.Panel_Connection.Name = "Panel_Connection";
             this.Panel_Connection.Size = new System.Drawing.Size(384, 160);
             this.Panel_Connection.TabIndex = 6;
@@ -129,10 +131,12 @@ namespace MAT_script_runner
             // 
             // Button_Filename_Formatting
             // 
-            this.Button_Filename_Formatting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Filename_Formatting.Location = new System.Drawing.Point(152, 0);
+            this.Button_Filename_Formatting.AutoSize = true;
+            this.Button_Filename_Formatting.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Button_Filename_Formatting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Button_Filename_Formatting.Location = new System.Drawing.Point(87, 0);
             this.Button_Filename_Formatting.Name = "Button_Filename_Formatting";
-            this.Button_Filename_Formatting.Size = new System.Drawing.Size(125, 23);
+            this.Button_Filename_Formatting.Size = new System.Drawing.Size(187, 23);
             this.Button_Filename_Formatting.TabIndex = 3;
             this.Button_Filename_Formatting.Text = "Filename Formatting";
             this.Button_Filename_Formatting.UseVisualStyleBackColor = true;
@@ -140,10 +144,12 @@ namespace MAT_script_runner
             // 
             // Button_Open_Folders
             // 
-            this.Button_Open_Folders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Open_Folders.Location = new System.Drawing.Point(68, 0);
+            this.Button_Open_Folders.AutoSize = true;
+            this.Button_Open_Folders.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Button_Open_Folders.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Button_Open_Folders.Location = new System.Drawing.Point(0, 0);
             this.Button_Open_Folders.Name = "Button_Open_Folders";
-            this.Button_Open_Folders.Size = new System.Drawing.Size(85, 23);
+            this.Button_Open_Folders.Size = new System.Drawing.Size(87, 23);
             this.Button_Open_Folders.TabIndex = 2;
             this.Button_Open_Folders.Text = "Open Folders";
             this.Button_Open_Folders.UseVisualStyleBackColor = true;
@@ -151,10 +157,11 @@ namespace MAT_script_runner
             // 
             // Button_Directory_Settings
             // 
-            this.Button_Directory_Settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Directory_Settings.Location = new System.Drawing.Point(276, 0);
+            this.Button_Directory_Settings.AutoSize = true;
+            this.Button_Directory_Settings.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Button_Directory_Settings.Location = new System.Drawing.Point(274, 0);
             this.Button_Directory_Settings.Name = "Button_Directory_Settings";
-            this.Button_Directory_Settings.Size = new System.Drawing.Size(108, 23);
+            this.Button_Directory_Settings.Size = new System.Drawing.Size(110, 23);
             this.Button_Directory_Settings.TabIndex = 4;
             this.Button_Directory_Settings.Text = "Directory Settings";
             this.Button_Directory_Settings.UseVisualStyleBackColor = true;
@@ -163,9 +170,7 @@ namespace MAT_script_runner
             // Panel_Controls
             // 
             this.Panel_Controls.Controls.Add(this.Checkbox_Voice);
-            this.Panel_Controls.Controls.Add(this.Panel_Connection);
             this.Panel_Controls.Controls.Add(this.Checkbox_Plot_Mode);
-            this.Panel_Controls.Controls.Add(this.Label_Status);
             this.Panel_Controls.Controls.Add(this.Checkbox_Auto_Execute);
             this.Panel_Controls.Controls.Add(this.Checkbox_Auto_Increment);
             this.Panel_Controls.Controls.Add(this.Numeric_Quick_Trial);
@@ -173,37 +178,37 @@ namespace MAT_script_runner
             this.Panel_Controls.Controls.Add(this.COM_Port_Label);
             this.Panel_Controls.Controls.Add(this.Numeric_COM_Port);
             this.Panel_Controls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel_Controls.Location = new System.Drawing.Point(0, 23);
+            this.Panel_Controls.Location = new System.Drawing.Point(0, 0);
             this.Panel_Controls.Name = "Panel_Controls";
-            this.Panel_Controls.Size = new System.Drawing.Size(384, 228);
+            this.Panel_Controls.Size = new System.Drawing.Size(384, 251);
             this.Panel_Controls.TabIndex = 4;
+            // 
+            // Checkbox_Voice
+            // 
+            this.Checkbox_Voice.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Checkbox_Voice.Checked = true;
+            this.Checkbox_Voice.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Checkbox_Voice.Location = new System.Drawing.Point(145, 191);
+            this.Checkbox_Voice.Name = "Checkbox_Voice";
+            this.Checkbox_Voice.Size = new System.Drawing.Size(170, 24);
+            this.Checkbox_Voice.TabIndex = 11;
+            this.Checkbox_Voice.Text = "Enable Voice Prompt";
+            this.Checkbox_Voice.UseVisualStyleBackColor = true;
             // 
             // Checkbox_Plot_Mode
             // 
             this.Checkbox_Plot_Mode.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Checkbox_Plot_Mode.Location = new System.Drawing.Point(167, 152);
+            this.Checkbox_Plot_Mode.Location = new System.Drawing.Point(160, 161);
             this.Checkbox_Plot_Mode.Name = "Checkbox_Plot_Mode";
             this.Checkbox_Plot_Mode.Size = new System.Drawing.Size(155, 24);
             this.Checkbox_Plot_Mode.TabIndex = 9;
             this.Checkbox_Plot_Mode.Text = "Enable Plot Mode";
             this.Checkbox_Plot_Mode.UseVisualStyleBackColor = true;
             // 
-            // Label_Status
-            // 
-            this.Label_Status.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.Label_Status.Font = new System.Drawing.Font("Segoe UI", 27F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label_Status.ForeColor = System.Drawing.Color.Gray;
-            this.Label_Status.Location = new System.Drawing.Point(6, 16);
-            this.Label_Status.Name = "Label_Status";
-            this.Label_Status.Size = new System.Drawing.Size(183, 48);
-            this.Label_Status.TabIndex = 10;
-            this.Label_Status.Text = "Standby";
-            this.Label_Status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Checkbox_Auto_Execute
             // 
             this.Checkbox_Auto_Execute.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Checkbox_Auto_Execute.Location = new System.Drawing.Point(129, 122);
+            this.Checkbox_Auto_Execute.Location = new System.Drawing.Point(122, 131);
             this.Checkbox_Auto_Execute.Name = "Checkbox_Auto_Execute";
             this.Checkbox_Auto_Execute.Size = new System.Drawing.Size(193, 24);
             this.Checkbox_Auto_Execute.TabIndex = 8;
@@ -216,7 +221,7 @@ namespace MAT_script_runner
             this.Checkbox_Auto_Increment.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Checkbox_Auto_Increment.Checked = true;
             this.Checkbox_Auto_Increment.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Checkbox_Auto_Increment.Location = new System.Drawing.Point(106, 92);
+            this.Checkbox_Auto_Increment.Location = new System.Drawing.Point(99, 101);
             this.Checkbox_Auto_Increment.Name = "Checkbox_Auto_Increment";
             this.Checkbox_Auto_Increment.Size = new System.Drawing.Size(216, 24);
             this.Checkbox_Auto_Increment.TabIndex = 7;
@@ -226,7 +231,7 @@ namespace MAT_script_runner
             // Numeric_Quick_Trial
             // 
             this.Numeric_Quick_Trial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Numeric_Quick_Trial.Location = new System.Drawing.Point(276, 47);
+            this.Numeric_Quick_Trial.Location = new System.Drawing.Point(270, 72);
             this.Numeric_Quick_Trial.Maximum = new decimal(new int[] {
             1,
             0,
@@ -253,7 +258,7 @@ namespace MAT_script_runner
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(195, 49);
+            this.label1.Location = new System.Drawing.Point(189, 74);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 15);
             this.label1.TabIndex = 6;
@@ -264,7 +269,7 @@ namespace MAT_script_runner
             this.COM_Port_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.COM_Port_Label.AutoSize = true;
             this.COM_Port_Label.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.COM_Port_Label.Location = new System.Drawing.Point(210, 20);
+            this.COM_Port_Label.Location = new System.Drawing.Point(204, 45);
             this.COM_Port_Label.Name = "COM_Port_Label";
             this.COM_Port_Label.Size = new System.Drawing.Size(60, 15);
             this.COM_Port_Label.TabIndex = 1;
@@ -273,7 +278,7 @@ namespace MAT_script_runner
             // Numeric_COM_Port
             // 
             this.Numeric_COM_Port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Numeric_COM_Port.Location = new System.Drawing.Point(277, 18);
+            this.Numeric_COM_Port.Location = new System.Drawing.Point(271, 43);
             this.Numeric_COM_Port.Minimum = new decimal(new int[] {
             1,
             0,
@@ -290,6 +295,18 @@ namespace MAT_script_runner
             0});
             this.Numeric_COM_Port.ValueChanged += new System.EventHandler(this.Numeric_COM_Port_ValueChanged);
             // 
+            // Label_Status
+            // 
+            this.Label_Status.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.Label_Status.Font = new System.Drawing.Font("Segoe UI", 27F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Label_Status.ForeColor = System.Drawing.Color.Gray;
+            this.Label_Status.Location = new System.Drawing.Point(0, 45);
+            this.Label_Status.Name = "Label_Status";
+            this.Label_Status.Size = new System.Drawing.Size(183, 48);
+            this.Label_Status.TabIndex = 10;
+            this.Label_Status.Text = "Standby";
+            this.Label_Status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Timer_Receive_Samples
             // 
             this.Timer_Receive_Samples.Interval = 300;
@@ -297,26 +314,14 @@ namespace MAT_script_runner
             // 
             // Panel_Settings
             // 
-            this.Panel_Settings.Controls.Add(this.Button_Open_Folders);
             this.Panel_Settings.Controls.Add(this.Button_Filename_Formatting);
+            this.Panel_Settings.Controls.Add(this.Button_Open_Folders);
             this.Panel_Settings.Controls.Add(this.Button_Directory_Settings);
             this.Panel_Settings.Dock = System.Windows.Forms.DockStyle.Top;
             this.Panel_Settings.Location = new System.Drawing.Point(0, 0);
             this.Panel_Settings.Name = "Panel_Settings";
             this.Panel_Settings.Size = new System.Drawing.Size(384, 23);
             this.Panel_Settings.TabIndex = 5;
-            // 
-            // Checkbox_Voice
-            // 
-            this.Checkbox_Voice.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Checkbox_Voice.Checked = true;
-            this.Checkbox_Voice.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Checkbox_Voice.Location = new System.Drawing.Point(152, 182);
-            this.Checkbox_Voice.Name = "Checkbox_Voice";
-            this.Checkbox_Voice.Size = new System.Drawing.Size(172, 24);
-            this.Checkbox_Voice.TabIndex = 11;
-            this.Checkbox_Voice.Text = "Enable Voice Prompt";
-            this.Checkbox_Voice.UseVisualStyleBackColor = true;
             // 
             // MAT_Script_Runner
             // 
@@ -325,8 +330,10 @@ namespace MAT_script_runner
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Form2_Back_Button;
             this.ClientSize = new System.Drawing.Size(384, 411);
-            this.Controls.Add(this.Panel_Controls);
+            this.Controls.Add(this.Label_Status);
             this.Controls.Add(this.Panel_Settings);
+            this.Controls.Add(this.Panel_Connection);
+            this.Controls.Add(this.Panel_Controls);
             this.Controls.Add(this.Panel_Home);
             this.MinimumSize = new System.Drawing.Size(400, 350);
             this.Name = "MAT_Script_Runner";
@@ -339,6 +346,7 @@ namespace MAT_script_runner
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_Quick_Trial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_COM_Port)).EndInit();
             this.Panel_Settings.ResumeLayout(false);
+            this.Panel_Settings.PerformLayout();
             this.ResumeLayout(false);
 
         }

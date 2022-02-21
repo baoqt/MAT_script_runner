@@ -35,7 +35,7 @@ if kpMove == 0
     kpMove = 0.5;     % 10
 end
 
-
+outcome = ["-1", "-1"];
 %% File Name Parameters:
 
 SubjectNum = int2str(SubjectNumInt);
@@ -244,7 +244,7 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     IMUV = (sqrt(IMU_vx.^2 + IMU_vy.^2 +IMU_vz.^2)); 
     
     if IMUV(10) > 0.1 || IMUV(end) > 0.1
-        strcat('Error: Possible Bad Velocity Signals Calculated for Subject: ', int2str(SubjectNumInt), ' Trial: ', int2str(TrialNumInt)) %Prints the error message to the command window.   
+        disp(strcat("Trial ", TrialNum, ": Possible Bad Velocity Signals Calculated for Subject: ")) %Prints the error message to the command window.   
     end
     
     peakdetThres = 0.1;
@@ -285,7 +285,7 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     [maxtab_IMUV, mintab_IMUV] = peakdet(IMUV, peakdetThres);
     
     if (length(maxtab_IMUV) > 5)
-       fprintf('Unexpected number of peaks, possible gesture data error?\n');   % Depending on gesture, determine if warning needed
+       disp('Unexpected number of peaks, possible gesture data error?\n');   % Depending on gesture, determine if warning needed
     end
    
     
@@ -375,8 +375,12 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         peak1 = peakLoc(find(peakValues == temp(1), 1 ,'first'));
         peak2 = peakLoc(find(peakValues == temp(2), 1 ,'first'));
         peak3 = peakLoc(find(peakValues == temp(3), 1 ,'first'));
-    catch ME                     % Need to rerun script with lower stationary threshold?
-        strcat('Error: 3 Peaks Not Detected.  Subject: ', int2str(SubjectNumInt), ' Trial: ', int2str(TrialNumInt)) %Prints the error message to the command window.
+    catch                     % Need to rerun script with lower stationary threshold?
+        errorText = strcat("Trial ", TrialNum, ": Error: 3 Peaks Not Detected.");
+        disp(errorText) %Prints the error message to the command window.
+
+        outcome = [TrialNum, errorText];
+        %outcome = vertcat(outcome, errorEntry);
     end
 
 if plot_mode == 1
@@ -416,7 +420,7 @@ if plot_mode == 1
 
     f70 = figure(70);
     clf;
-    f70.Name = 'Trimmed Resultant Data';
+    f70.Name = strcat("Trial ", TrialNum, ": Trimmed Resultant Data");
     f70.Visible = 'off';
     hold on; plot(trimI * 10, 'linewidth', 2)
     title('Resultant Velocity');

@@ -23,21 +23,21 @@ vz = centdiff(z);
 vr = sqrt((vx.^2)+(vy.^2)+(vz.^2));
 
 %Plot Position and Velocity (wmc)
-if (plotMode == 1)
-    figure; subplot (2,1,1);
-    plot(vx,'k'); hold on; plot (vy,'b'); hold on; plot (vz,'r'); hold on; title('Velocity (wmc)')
-    legend('x','y','z')
-
-    hold on; subplot (2,1,2); 
-
-    plot (vr,'linewidth',2); hold on;
-end
+% if (plotMode == 1)
+%     figure; subplot (2,1,1);
+%     plot(vx,'k'); hold on; plot (vy,'b'); hold on; plot (vz,'r'); hold on; title('Velocity (wmc)')
+%     legend('x','y','z')
+% 
+%     hold on; subplot (2,1,2); 
+% 
+%     plot (vr,'linewidth',2); hold on;
+% end
 
 [maxtab_vr, mintab_vr] = peakdet(vr, 2); %Detect Peaks in Time Series (wmc)
 
-if (plotMode == 1)
-    plot(maxtab_vr(:,1), maxtab_vr(:,2), 'r*'); hold on; title('Resultant Velocity'); hold on;
-end
+%if (plotMode == 1)
+%    plot(maxtab_vr(:,1), maxtab_vr(:,2), 'r*'); hold on; title('Resultant Velocity'); hold on;
+%end
 %--------------------------- Calculate Onset ----------------------------
 MinDuration = 50;
 
@@ -117,9 +117,10 @@ trimvz = vz(onset_vr:offset_vr);
 
 if (plotMode == 1)
     f70 = figure(70);
-    f70.Name = 'Trimmed Resultant Data';
+    f70.Name = strcat("Trial ", int2str(trial), ": Trimmed Resultant Data");
     hold on; plot(trim,'b','linewidth',2)
     title('Vicon Resultant Velocity');
+    legend("IMU", "Vicon");
 end
 
 %--------------------------- Calculate Kinematics ----------------------------

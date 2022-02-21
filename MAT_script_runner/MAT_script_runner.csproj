@@ -32,6 +32,7 @@
     <None Remove="countdown.wav" />
     <None Remove="func_jerk_dim.m" />
     <None Remove="func_SAL.m" />
+    <None Remove="intrp100.m" />
     <None Remove="jointangle_sagittal_upperlimb.m" />
     <None Remove="Master_XZ_Bao_06072021.m" />
     <None Remove="peakdet.m" />
@@ -56,6 +57,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="func_SAL.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="intrp100.m">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="jointangle_sagittal_upperlimb.m">
