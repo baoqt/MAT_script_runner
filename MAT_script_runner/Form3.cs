@@ -16,8 +16,8 @@ namespace MAT_script_runner
 
             Textbox_Gesture.Text = Properties.Settings.Default.GestureName;
             Numeric_Participant.Value = Properties.Settings.Default.ParticipantNumber;
-            Numeric_Trial.Value = Properties.Settings.Default.TrialNumber;
             Numeric_Trial.Maximum = Decimal.MaxValue;
+            Numeric_Trial.Value = Properties.Settings.Default.TrialNumber;
         }
 
         private MAT_Script_Runner mainForm;
@@ -30,6 +30,7 @@ namespace MAT_script_runner
 
             Textbox_Gesture.Text = Properties.Settings.Default.GestureName;
             Numeric_Participant.Value = Properties.Settings.Default.ParticipantNumber;
+            Numeric_Trial.Maximum = Decimal.MaxValue;
             Numeric_Trial.Value = Properties.Settings.Default.TrialNumber;
         }
 
