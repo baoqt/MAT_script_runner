@@ -40,9 +40,8 @@ namespace MAT_script_runner
             Numeric_Quick_Participant.Value = Properties.Settings.Default.ParticipantNumber;
 
             Textbox_IP.Text = Properties.Settings.Default.IP;
-            Numeric_Port.Value = Properties.Settings.Default.Port;
             Numeric_Port.Maximum = Decimal.MaxValue;
-            
+            Numeric_Port.Value = Properties.Settings.Default.Port;            
         }
 
         private void Button_Open_Folders_Click(object sender, EventArgs e)
@@ -83,6 +82,7 @@ namespace MAT_script_runner
             Panel_Connection.Visible = true;
             Panel_Bluetooth.Visible = true;
             Panel_TCP.Visible = false;
+            Checkbox_Voice.Visible = true;
 
             Button_Start_Connection.Text = "Start Bluetooth Connection";
         }
@@ -179,29 +179,27 @@ namespace MAT_script_runner
                 {
                     server = new TcpListener(IPAddress.Parse(Textbox_IP.Text), (int)Numeric_Port.Value);
                     server.Start();
+
+                    Label_Status.Text = "Waiting";
+                    Label_Status.ForeColor = Color.YellowGreen;
+
                     client = server.AcceptTcpClient();
-
-                    Label_Status.Text = "Recording";
-                    Label_Status.ForeColor = Color.LimeGreen;
-
-                    netStream = client.GetStream();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + "\n\n Error socket exception.");
                 }
 
-                if (client != null)
+                if (client.Connected)
                 {
-                    if (Checkbox_Voice.Checked == true)
-                    {
-                        countdown.Play();
-                    }
-
+                    Label_Status.Text = "Recording";
+                    Label_Status.ForeColor = Color.LimeGreen;
                     Button_Start_Connection.Text = "Stop TCPIP Connection";
                     Button_Connection_Back.Enabled = false;
                     Panel_Controls.Enabled = false;
                     Panel_TCP.Enabled = false;
+
+                    netStream = client.GetStream();
 
                     Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
                     Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
@@ -210,23 +208,36 @@ namespace MAT_script_runner
 
                     Timer_Receive_Samples.Enabled = true;
                 }
+            }
+            else if (Button_Start_Connection.Text == "Stop TCPIP Connection")
+            {
+                Button_Start_Connection.Text = "Start TCPIP Connection";
+                Button_Connection_Back.Enabled = true;
+                Panel_Controls.Enabled = true;
+                Panel_TCP.Enabled = true;
+
+                try
+                {
+                    client.Close();
+                    server.Stop();
+                    stream.Close();
+
+                    Label_Status.Text = "Standby";
+                    Label_Status.ForeColor = Color.Gray;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                Timer_Receive_Samples.Enabled = false;
 
                 if (Checkbox_Auto_Increment.Checked)
                 {
                     Properties.Settings.Default.TrialNumber++;
                     Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
                     Properties.Settings.Default.Save();
-                }
-            }
-            else if (Button_Start_Connection.Text == "Stop TCPIP Connection")
-            {
-                client.Close();
-                server.Stop();
-
-                Button_Start_Connection.Text = "Start TCPIP Connection";
-                Button_Connection_Back.Enabled = true;
-                Panel_TCP.Enabled = true;
-                client = null;
+                }   
             }
         }
 
@@ -236,6 +247,7 @@ namespace MAT_script_runner
             Panel_Connection.Visible = false;
             Panel_Bluetooth.Visible = false;
             Panel_TCP.Visible = false;
+            Checkbox_Voice.Visible = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -248,6 +260,7 @@ namespace MAT_script_runner
             Properties.Settings.Default.COMPort = (int) Numeric_COM_Port.Value;
             Properties.Settings.Default.Save();
         }
+
         private void Textbox_IP_TextChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.IP = Textbox_IP.Text;
@@ -293,8 +306,8 @@ namespace MAT_script_runner
             {
                 try
                 {
-                    int i = netStream.Read(buffer, 0, buffer.Length);
-                    stream.Write(System.Text.Encoding.ASCII.GetString(buffer, 0, i));
+                    netStream.ReadAsync(buffer, 0, 3000);
+                    stream.Write(System.Text.Encoding.ASCII.GetString(buffer, 0, buffer.Length));
                 }
                 catch (Exception ex)
                 {
@@ -313,6 +326,11 @@ namespace MAT_script_runner
         {
             Properties.Settings.Default.ParticipantNumber = (int)Numeric_Quick_Participant.Value;
             Properties.Settings.Default.Save();
+        }
+
+        private void Background_TCP_DoWork(object sender, DoWorkEventArgs e)
+        {
+            
         }
     }
 }
