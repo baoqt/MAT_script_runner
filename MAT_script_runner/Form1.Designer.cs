@@ -34,25 +34,25 @@ namespace MAT_script_runner
             this.Button_Bluetooth_Connection = new System.Windows.Forms.Button();
             this.Panel_Home = new System.Windows.Forms.Panel();
             this.Panel_Connection = new System.Windows.Forms.Panel();
-            this.Button_Start_Bluetooth_Connection = new System.Windows.Forms.Button();
-            this.Form2_Back_Button = new System.Windows.Forms.Button();
+            this.Button_Start_Connection = new System.Windows.Forms.Button();
+            this.Button_Connection_Back = new System.Windows.Forms.Button();
             this.Button_Filename_Formatting = new System.Windows.Forms.Button();
             this.Button_Open_Folders = new System.Windows.Forms.Button();
             this.Button_Directory_Settings = new System.Windows.Forms.Button();
             this.Panel_Controls = new System.Windows.Forms.Panel();
+            this.Numeric_Quick_Participant = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.Checkbox_Voice = new System.Windows.Forms.CheckBox();
             this.Checkbox_Plot_Mode = new System.Windows.Forms.CheckBox();
             this.Checkbox_Auto_Execute = new System.Windows.Forms.CheckBox();
             this.Checkbox_Auto_Increment = new System.Windows.Forms.CheckBox();
             this.Numeric_Quick_Trial = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Label_Quick_Trial = new System.Windows.Forms.Label();
             this.COM_Port_Label = new System.Windows.Forms.Label();
             this.Numeric_COM_Port = new System.Windows.Forms.NumericUpDown();
             this.Label_Status = new System.Windows.Forms.Label();
             this.Timer_Receive_Samples = new System.Windows.Forms.Timer(this.components);
             this.Panel_Settings = new System.Windows.Forms.Panel();
-<<<<<<< HEAD
-<<<<<<< HEAD
             this.Panel_Status = new System.Windows.Forms.Panel();
             this.Panel_Bluetooth = new System.Windows.Forms.Panel();
             this.Panel_TCP = new System.Windows.Forms.Panel();
@@ -60,20 +60,18 @@ namespace MAT_script_runner
             this.Label_IP = new System.Windows.Forms.Label();
             this.Label_Port = new System.Windows.Forms.Label();
             this.Numeric_Port = new System.Windows.Forms.NumericUpDown();
-<<<<<<< HEAD
             this.Background_TCP = new System.ComponentModel.BackgroundWorker();
-=======
->>>>>>> parent of 5e0bdaf (Adjusted form layout)
-=======
->>>>>>> parent of 782ef7c (Adjusted TCP functionality)
-=======
->>>>>>> parent of 5e0bdaf (Adjusted form layout)
             this.Panel_Home.SuspendLayout();
             this.Panel_Connection.SuspendLayout();
             this.Panel_Controls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Numeric_Quick_Participant)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_Quick_Trial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_COM_Port)).BeginInit();
             this.Panel_Settings.SuspendLayout();
+            this.Panel_Status.SuspendLayout();
+            this.Panel_Bluetooth.SuspendLayout();
+            this.Panel_TCP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Numeric_Port)).BeginInit();
             this.SuspendLayout();
             // 
             // Button_TCPIP_Connection
@@ -113,38 +111,36 @@ namespace MAT_script_runner
             // 
             // Panel_Connection
             // 
-            this.Panel_Connection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel_Connection.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Panel_Connection.Controls.Add(this.Button_Start_Bluetooth_Connection);
-            this.Panel_Connection.Controls.Add(this.Form2_Back_Button);
+            this.Panel_Connection.Controls.Add(this.Button_Start_Connection);
+            this.Panel_Connection.Controls.Add(this.Button_Connection_Back);
             this.Panel_Connection.Location = new System.Drawing.Point(0, 251);
             this.Panel_Connection.Name = "Panel_Connection";
             this.Panel_Connection.Size = new System.Drawing.Size(384, 160);
             this.Panel_Connection.TabIndex = 6;
             this.Panel_Connection.Visible = false;
             // 
-            // Button_Start_Bluetooth_Connection
+            // Button_Start_Connection
             // 
-            this.Button_Start_Bluetooth_Connection.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Button_Start_Bluetooth_Connection.Location = new System.Drawing.Point(0, 0);
-            this.Button_Start_Bluetooth_Connection.Name = "Button_Start_Bluetooth_Connection";
-            this.Button_Start_Bluetooth_Connection.Size = new System.Drawing.Size(384, 80);
-            this.Button_Start_Bluetooth_Connection.TabIndex = 0;
-            this.Button_Start_Bluetooth_Connection.Text = "Start Bluetooth Connection";
-            this.Button_Start_Bluetooth_Connection.UseVisualStyleBackColor = true;
-            this.Button_Start_Bluetooth_Connection.Click += new System.EventHandler(this.Button_Start_Bluetooth_Connection_Click);
+            this.Button_Start_Connection.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Button_Start_Connection.Location = new System.Drawing.Point(0, 0);
+            this.Button_Start_Connection.Name = "Button_Start_Connection";
+            this.Button_Start_Connection.Size = new System.Drawing.Size(384, 80);
+            this.Button_Start_Connection.TabIndex = 0;
+            this.Button_Start_Connection.Text = "Start Bluetooth Connection";
+            this.Button_Start_Connection.UseVisualStyleBackColor = true;
+            this.Button_Start_Connection.Click += new System.EventHandler(this.Button_Start_Connection_Click);
             // 
-            // Form2_Back_Button
+            // Button_Connection_Back
             // 
-            this.Form2_Back_Button.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Form2_Back_Button.Location = new System.Drawing.Point(0, 80);
-            this.Form2_Back_Button.Name = "Form2_Back_Button";
-            this.Form2_Back_Button.Size = new System.Drawing.Size(384, 80);
-            this.Form2_Back_Button.TabIndex = 1;
-            this.Form2_Back_Button.Text = "Back";
-            this.Form2_Back_Button.UseVisualStyleBackColor = true;
-            this.Form2_Back_Button.Click += new System.EventHandler(this.Button_Bluetooth_Back_Click);
+            this.Button_Connection_Back.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Button_Connection_Back.Location = new System.Drawing.Point(0, 80);
+            this.Button_Connection_Back.Name = "Button_Connection_Back";
+            this.Button_Connection_Back.Size = new System.Drawing.Size(384, 80);
+            this.Button_Connection_Back.TabIndex = 1;
+            this.Button_Connection_Back.Text = "Back";
+            this.Button_Connection_Back.UseVisualStyleBackColor = true;
+            this.Button_Connection_Back.Click += new System.EventHandler(this.Button_Connection_Back_Click);
             // 
             // Button_Filename_Formatting
             // 
@@ -186,36 +182,75 @@ namespace MAT_script_runner
             // 
             // Panel_Controls
             // 
+            this.Panel_Controls.Controls.Add(this.Numeric_Quick_Participant);
+            this.Panel_Controls.Controls.Add(this.label1);
             this.Panel_Controls.Controls.Add(this.Checkbox_Voice);
             this.Panel_Controls.Controls.Add(this.Checkbox_Plot_Mode);
             this.Panel_Controls.Controls.Add(this.Checkbox_Auto_Execute);
             this.Panel_Controls.Controls.Add(this.Checkbox_Auto_Increment);
             this.Panel_Controls.Controls.Add(this.Numeric_Quick_Trial);
-            this.Panel_Controls.Controls.Add(this.label1);
-            this.Panel_Controls.Controls.Add(this.COM_Port_Label);
-            this.Panel_Controls.Controls.Add(this.Numeric_COM_Port);
-            this.Panel_Controls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel_Controls.Location = new System.Drawing.Point(0, 0);
+            this.Panel_Controls.Controls.Add(this.Label_Quick_Trial);
+            this.Panel_Controls.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Panel_Controls.Location = new System.Drawing.Point(0, 148);
             this.Panel_Controls.Name = "Panel_Controls";
-            this.Panel_Controls.Size = new System.Drawing.Size(384, 251);
+            this.Panel_Controls.Size = new System.Drawing.Size(384, 103);
             this.Panel_Controls.TabIndex = 4;
+            // 
+            // Numeric_Quick_Participant
+            // 
+            this.Numeric_Quick_Participant.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Numeric_Quick_Participant.Location = new System.Drawing.Point(124, 16);
+            this.Numeric_Quick_Participant.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Numeric_Quick_Participant.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Numeric_Quick_Participant.Name = "Numeric_Quick_Participant";
+            this.Numeric_Quick_Participant.Size = new System.Drawing.Size(74, 23);
+            this.Numeric_Quick_Participant.TabIndex = 12;
+            this.Numeric_Quick_Participant.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Numeric_Quick_Participant.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Numeric_Quick_Participant.ValueChanged += new System.EventHandler(this.Numeric_Quick_Participant_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(5, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 15);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Parti. Number";
             // 
             // Checkbox_Voice
             // 
+            this.Checkbox_Voice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Checkbox_Voice.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Checkbox_Voice.Checked = true;
             this.Checkbox_Voice.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Checkbox_Voice.Location = new System.Drawing.Point(145, 191);
+            this.Checkbox_Voice.Location = new System.Drawing.Point(217, 45);
             this.Checkbox_Voice.Name = "Checkbox_Voice";
-            this.Checkbox_Voice.Size = new System.Drawing.Size(170, 24);
+            this.Checkbox_Voice.Size = new System.Drawing.Size(155, 24);
             this.Checkbox_Voice.TabIndex = 11;
             this.Checkbox_Voice.Text = "Enable Voice Prompt";
             this.Checkbox_Voice.UseVisualStyleBackColor = true;
+            this.Checkbox_Voice.Visible = false;
             // 
             // Checkbox_Plot_Mode
             // 
+            this.Checkbox_Plot_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Checkbox_Plot_Mode.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Checkbox_Plot_Mode.Location = new System.Drawing.Point(160, 161);
+            this.Checkbox_Plot_Mode.Location = new System.Drawing.Point(217, 75);
             this.Checkbox_Plot_Mode.Name = "Checkbox_Plot_Mode";
             this.Checkbox_Plot_Mode.Size = new System.Drawing.Size(155, 24);
             this.Checkbox_Plot_Mode.TabIndex = 9;
@@ -224,8 +259,9 @@ namespace MAT_script_runner
             // 
             // Checkbox_Auto_Execute
             // 
+            this.Checkbox_Auto_Execute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Checkbox_Auto_Execute.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Checkbox_Auto_Execute.Location = new System.Drawing.Point(122, 131);
+            this.Checkbox_Auto_Execute.Location = new System.Drawing.Point(5, 75);
             this.Checkbox_Auto_Execute.Name = "Checkbox_Auto_Execute";
             this.Checkbox_Auto_Execute.Size = new System.Drawing.Size(193, 24);
             this.Checkbox_Auto_Execute.TabIndex = 8;
@@ -235,20 +271,21 @@ namespace MAT_script_runner
             // 
             // Checkbox_Auto_Increment
             // 
+            this.Checkbox_Auto_Increment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Checkbox_Auto_Increment.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Checkbox_Auto_Increment.Checked = true;
             this.Checkbox_Auto_Increment.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Checkbox_Auto_Increment.Location = new System.Drawing.Point(99, 101);
+            this.Checkbox_Auto_Increment.Location = new System.Drawing.Point(5, 45);
             this.Checkbox_Auto_Increment.Name = "Checkbox_Auto_Increment";
-            this.Checkbox_Auto_Increment.Size = new System.Drawing.Size(216, 24);
+            this.Checkbox_Auto_Increment.Size = new System.Drawing.Size(193, 24);
             this.Checkbox_Auto_Increment.TabIndex = 7;
             this.Checkbox_Auto_Increment.Text = "Auto-increment Trial Number";
             this.Checkbox_Auto_Increment.UseVisualStyleBackColor = true;
             // 
             // Numeric_Quick_Trial
             // 
-            this.Numeric_Quick_Trial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Numeric_Quick_Trial.Location = new System.Drawing.Point(270, 72);
+            this.Numeric_Quick_Trial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Numeric_Quick_Trial.Location = new System.Drawing.Point(298, 16);
             this.Numeric_Quick_Trial.Maximum = new decimal(new int[] {
             1,
             0,
@@ -260,7 +297,7 @@ namespace MAT_script_runner
             0,
             0});
             this.Numeric_Quick_Trial.Name = "Numeric_Quick_Trial";
-            this.Numeric_Quick_Trial.Size = new System.Drawing.Size(95, 23);
+            this.Numeric_Quick_Trial.Size = new System.Drawing.Size(74, 23);
             this.Numeric_Quick_Trial.TabIndex = 6;
             this.Numeric_Quick_Trial.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Numeric_Quick_Trial.Value = new decimal(new int[] {
@@ -270,23 +307,23 @@ namespace MAT_script_runner
             0});
             this.Numeric_Quick_Trial.ValueChanged += new System.EventHandler(this.Numeric_Quick_Trial_ValueChanged);
             // 
-            // label1
+            // Label_Quick_Trial
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(189, 74);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 15);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Trial Number";
+            this.Label_Quick_Trial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Label_Quick_Trial.AutoSize = true;
+            this.Label_Quick_Trial.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Label_Quick_Trial.Location = new System.Drawing.Point(217, 18);
+            this.Label_Quick_Trial.Name = "Label_Quick_Trial";
+            this.Label_Quick_Trial.Size = new System.Drawing.Size(75, 15);
+            this.Label_Quick_Trial.TabIndex = 6;
+            this.Label_Quick_Trial.Text = "Trial Number";
             // 
             // COM_Port_Label
             // 
-            this.COM_Port_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.COM_Port_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.COM_Port_Label.AutoSize = true;
             this.COM_Port_Label.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.COM_Port_Label.Location = new System.Drawing.Point(204, 45);
+            this.COM_Port_Label.Location = new System.Drawing.Point(19, 101);
             this.COM_Port_Label.Name = "COM_Port_Label";
             this.COM_Port_Label.Size = new System.Drawing.Size(60, 15);
             this.COM_Port_Label.TabIndex = 1;
@@ -294,15 +331,15 @@ namespace MAT_script_runner
             // 
             // Numeric_COM_Port
             // 
-            this.Numeric_COM_Port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Numeric_COM_Port.Location = new System.Drawing.Point(271, 43);
+            this.Numeric_COM_Port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Numeric_COM_Port.Location = new System.Drawing.Point(83, 99);
             this.Numeric_COM_Port.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.Numeric_COM_Port.Name = "Numeric_COM_Port";
-            this.Numeric_COM_Port.Size = new System.Drawing.Size(95, 23);
+            this.Numeric_COM_Port.Size = new System.Drawing.Size(91, 23);
             this.Numeric_COM_Port.TabIndex = 5;
             this.Numeric_COM_Port.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Numeric_COM_Port.Value = new decimal(new int[] {
@@ -314,12 +351,12 @@ namespace MAT_script_runner
             // 
             // Label_Status
             // 
-            this.Label_Status.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.Label_Status.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Label_Status.Font = new System.Drawing.Font("Segoe UI", 27F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Status.ForeColor = System.Drawing.Color.Gray;
-            this.Label_Status.Location = new System.Drawing.Point(0, 45);
+            this.Label_Status.Location = new System.Drawing.Point(0, 0);
             this.Label_Status.Name = "Label_Status";
-            this.Label_Status.Size = new System.Drawing.Size(183, 48);
+            this.Label_Status.Size = new System.Drawing.Size(198, 125);
             this.Label_Status.TabIndex = 10;
             this.Label_Status.Text = "Standby";
             this.Label_Status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -340,8 +377,6 @@ namespace MAT_script_runner
             this.Panel_Settings.Size = new System.Drawing.Size(384, 23);
             this.Panel_Settings.TabIndex = 5;
             // 
-<<<<<<< HEAD
-<<<<<<< HEAD
             // Panel_Status
             // 
             this.Panel_Status.Controls.Add(this.Label_Status);
@@ -360,6 +395,7 @@ namespace MAT_script_runner
             this.Panel_Bluetooth.Name = "Panel_Bluetooth";
             this.Panel_Bluetooth.Size = new System.Drawing.Size(186, 125);
             this.Panel_Bluetooth.TabIndex = 12;
+            this.Panel_Bluetooth.Visible = false;
             // 
             // Panel_TCP
             // 
@@ -427,30 +463,26 @@ namespace MAT_script_runner
             0});
             this.Numeric_Port.ValueChanged += new System.EventHandler(this.Numeric_Port_ValueChanged);
             // 
-<<<<<<< HEAD
             // Background_TCP
             // 
             this.Background_TCP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Background_TCP_DoWork);
             // 
-=======
->>>>>>> parent of 5e0bdaf (Adjusted form layout)
-=======
->>>>>>> parent of 782ef7c (Adjusted TCP functionality)
-=======
->>>>>>> parent of 5e0bdaf (Adjusted form layout)
             // MAT_Script_Runner
             // 
-            this.AcceptButton = this.Button_Start_Bluetooth_Connection;
+            this.AcceptButton = this.Button_Start_Connection;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.Form2_Back_Button;
+            this.CancelButton = this.Button_Connection_Back;
             this.ClientSize = new System.Drawing.Size(384, 411);
-            this.Controls.Add(this.Label_Status);
+            this.Controls.Add(this.Panel_TCP);
+            this.Controls.Add(this.Panel_Bluetooth);
+            this.Controls.Add(this.Panel_Status);
             this.Controls.Add(this.Panel_Settings);
             this.Controls.Add(this.Panel_Connection);
             this.Controls.Add(this.Panel_Controls);
             this.Controls.Add(this.Panel_Home);
-            this.MinimumSize = new System.Drawing.Size(400, 350);
+            this.MaximumSize = new System.Drawing.Size(400, 450);
+            this.MinimumSize = new System.Drawing.Size(400, 450);
             this.Name = "MAT_Script_Runner";
             this.Text = "MAT Script Runner";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -458,10 +490,17 @@ namespace MAT_script_runner
             this.Panel_Connection.ResumeLayout(false);
             this.Panel_Controls.ResumeLayout(false);
             this.Panel_Controls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Numeric_Quick_Participant)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_Quick_Trial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Numeric_COM_Port)).EndInit();
             this.Panel_Settings.ResumeLayout(false);
             this.Panel_Settings.PerformLayout();
+            this.Panel_Status.ResumeLayout(false);
+            this.Panel_Bluetooth.ResumeLayout(false);
+            this.Panel_Bluetooth.PerformLayout();
+            this.Panel_TCP.ResumeLayout(false);
+            this.Panel_TCP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Numeric_Port)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -473,14 +512,14 @@ namespace MAT_script_runner
         private System.Windows.Forms.Panel Panel_Home;
         private System.Windows.Forms.Panel Panel_Controls;
         private System.Windows.Forms.Label COM_Port_Label;
-        private System.Windows.Forms.Button Form2_Back_Button;
-        private System.Windows.Forms.Button Button_Start_Bluetooth_Connection;
+        private System.Windows.Forms.Button Button_Connection_Back;
+        private System.Windows.Forms.Button Button_Start_Connection;
         private System.Windows.Forms.Button Button_Directory_Settings;
         private System.Windows.Forms.Button Button_Open_Folders;
         private System.Windows.Forms.NumericUpDown Numeric_COM_Port;
         private System.Windows.Forms.Timer Timer_Receive_Samples;
         private System.Windows.Forms.Panel Panel_Settings;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Label_Quick_Trial;
         private System.Windows.Forms.Button Button_Filename_Formatting;
         private System.Windows.Forms.CheckBox Checkbox_Auto_Increment;
         private System.Windows.Forms.CheckBox Checkbox_Auto_Execute;
@@ -489,8 +528,6 @@ namespace MAT_script_runner
         private System.Windows.Forms.Panel Panel_Connection;
         public System.Windows.Forms.NumericUpDown Numeric_Quick_Trial;
         private System.Windows.Forms.CheckBox Checkbox_Voice;
-<<<<<<< HEAD
-<<<<<<< HEAD
         private System.Windows.Forms.Panel Panel_Status;
         private System.Windows.Forms.Panel Panel_Bluetooth;
         private System.Windows.Forms.Panel Panel_TCP;
@@ -500,14 +537,7 @@ namespace MAT_script_runner
         private System.Windows.Forms.TextBox Textbox_IP;
         public System.Windows.Forms.NumericUpDown Numeric_Quick_Participant;
         private System.Windows.Forms.Label label1;
-<<<<<<< HEAD
         private System.ComponentModel.BackgroundWorker Background_TCP;
-=======
->>>>>>> parent of 5e0bdaf (Adjusted form layout)
-=======
->>>>>>> parent of 782ef7c (Adjusted TCP functionality)
-=======
->>>>>>> parent of 5e0bdaf (Adjusted form layout)
     }
 }
 
