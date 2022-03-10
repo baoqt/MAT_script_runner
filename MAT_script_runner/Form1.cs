@@ -30,6 +30,7 @@ namespace MAT_script_runner
             Numeric_COM_Port.Value = Properties.Settings.Default.COMPort;
             Numeric_Quick_Trial.Maximum = Decimal.MaxValue;
 <<<<<<< HEAD
+<<<<<<< HEAD
             Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
             Numeric_Quick_Participant.Maximum = Decimal.MaxValue;
             Numeric_Quick_Participant.Value = Properties.Settings.Default.ParticipantNumber;
@@ -44,6 +45,8 @@ namespace MAT_script_runner
 =======
             
 >>>>>>> parent of 782ef7c (Adjusted TCP functionality)
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
         }
 
         private void Button_Open_Folders_Click(object sender, EventArgs e)
@@ -75,6 +78,7 @@ namespace MAT_script_runner
         private void Button_Bluetooth_Connection_Click(object sender, EventArgs e)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             Panel_Home.Enabled = false;
             Panel_Connection.Visible = true;
             Panel_Bluetooth.Visible = true;
@@ -86,6 +90,9 @@ namespace MAT_script_runner
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
 =======
 >>>>>>> parent of 782ef7c (Adjusted TCP functionality)
+=======
+            Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
 
             Panel_Home.Visible = false;
             Panel_Connection.Visible = true;
@@ -170,6 +177,7 @@ namespace MAT_script_runner
                         Properties.Settings.Default.TrialNumber++;
                     }
 <<<<<<< HEAD
+<<<<<<< HEAD
                 }
             }
             else if (Button_Start_Connection.Text == "Start TCPIP Connection")
@@ -213,10 +221,14 @@ namespace MAT_script_runner
                 if (Checkbox_Auto_Increment.Checked)
                 {
                     Properties.Settings.Default.TrialNumber++;
+=======
+                    
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
                     Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
                     Properties.Settings.Default.Save();
                 }
             }
+<<<<<<< HEAD
             else if (Button_Start_Connection.Text == "Stop TCPIP Connection")
             {
                 client.Close();
@@ -234,12 +246,15 @@ namespace MAT_script_runner
                 }
             }
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
         }
 
         private void Button_Bluetooth_Back_Click(object sender, EventArgs e)
         {
             Panel_Home.Visible = true;
             Panel_Connection.Visible = false;
+<<<<<<< HEAD
 <<<<<<< HEAD
             Panel_Bluetooth.Visible = false;
             Panel_TCP.Visible = false;
@@ -249,6 +264,8 @@ namespace MAT_script_runner
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
 =======
 >>>>>>> parent of 782ef7c (Adjusted TCP functionality)
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -261,6 +278,7 @@ namespace MAT_script_runner
             Properties.Settings.Default.COMPort = (int) Numeric_COM_Port.Value;
             Properties.Settings.Default.Save();
         }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -277,6 +295,8 @@ namespace MAT_script_runner
             Properties.Settings.Default.Port = (int)Numeric_Port.Value;
             Properties.Settings.Default.Save();
         }
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
 =======
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
 
@@ -306,6 +326,7 @@ namespace MAT_script_runner
             catch (Exception ex)
             {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 try
                 {
                     int i = netStream.Read(buffer, 0, buffer.Length);
@@ -318,6 +339,9 @@ namespace MAT_script_runner
 =======
                 MessageBox.Show(ex.Message);
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
+=======
+                MessageBox.Show(ex.Message);
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
             }
         }
 
@@ -326,6 +350,7 @@ namespace MAT_script_runner
             Properties.Settings.Default.TrialNumber = (int) Numeric_Quick_Trial.Value;
             Properties.Settings.Default.Save();
         }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
         private void Numeric_Quick_Participant_ValueChanged(object sender, EventArgs e)
@@ -343,5 +368,7 @@ namespace MAT_script_runner
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
 =======
 >>>>>>> parent of 782ef7c (Adjusted TCP functionality)
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
     }
 }

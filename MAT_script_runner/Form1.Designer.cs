@@ -52,6 +52,7 @@ namespace MAT_script_runner
             this.Timer_Receive_Samples = new System.Windows.Forms.Timer(this.components);
             this.Panel_Settings = new System.Windows.Forms.Panel();
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.Panel_Status = new System.Windows.Forms.Panel();
             this.Panel_Bluetooth = new System.Windows.Forms.Panel();
             this.Panel_TCP = new System.Windows.Forms.Panel();
@@ -65,6 +66,8 @@ namespace MAT_script_runner
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
 =======
 >>>>>>> parent of 782ef7c (Adjusted TCP functionality)
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
             this.Panel_Home.SuspendLayout();
             this.Panel_Connection.SuspendLayout();
             this.Panel_Controls.SuspendLayout();
@@ -338,6 +341,7 @@ namespace MAT_script_runner
             this.Panel_Settings.TabIndex = 5;
             // 
 <<<<<<< HEAD
+<<<<<<< HEAD
             // Panel_Status
             // 
             this.Panel_Status.Controls.Add(this.Label_Status);
@@ -432,6 +436,8 @@ namespace MAT_script_runner
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
 =======
 >>>>>>> parent of 782ef7c (Adjusted TCP functionality)
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
             // MAT_Script_Runner
             // 
             this.AcceptButton = this.Button_Start_Bluetooth_Connection;
@@ -484,6 +490,7 @@ namespace MAT_script_runner
         public System.Windows.Forms.NumericUpDown Numeric_Quick_Trial;
         private System.Windows.Forms.CheckBox Checkbox_Voice;
 <<<<<<< HEAD
+<<<<<<< HEAD
         private System.Windows.Forms.Panel Panel_Status;
         private System.Windows.Forms.Panel Panel_Bluetooth;
         private System.Windows.Forms.Panel Panel_TCP;
@@ -499,6 +506,8 @@ namespace MAT_script_runner
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
 =======
 >>>>>>> parent of 782ef7c (Adjusted TCP functionality)
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
     }
 }
 
