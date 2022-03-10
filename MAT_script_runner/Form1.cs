@@ -6,8 +6,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Ports;
-using System.Net;
-using System.Net.Sockets;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -21,12 +19,8 @@ namespace MAT_script_runner
         MLApp.MLApp matlab;
         bool matInitialized = false;
         StreamWriter stream;
-        NetworkStream netStream;
-        TcpClient client = null;
 
         static SerialPort comPort = new SerialPort();
-        TcpListener server = null;
-        Byte[] buffer = new Byte[3000];
         SoundPlayer countdown = new SoundPlayer(@"countdown.wav");
 
         public MAT_Script_Runner()
@@ -35,6 +29,7 @@ namespace MAT_script_runner
 
             Numeric_COM_Port.Value = Properties.Settings.Default.COMPort;
             Numeric_Quick_Trial.Maximum = Decimal.MaxValue;
+<<<<<<< HEAD
             Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
             Numeric_Quick_Participant.Maximum = Decimal.MaxValue;
             Numeric_Quick_Participant.Value = Properties.Settings.Default.ParticipantNumber;
@@ -42,6 +37,8 @@ namespace MAT_script_runner
             Textbox_IP.Text = Properties.Settings.Default.IP;
             Numeric_Port.Maximum = Decimal.MaxValue;
             Numeric_Port.Value = Properties.Settings.Default.Port;            
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
         }
 
         private void Button_Open_Folders_Click(object sender, EventArgs e)
@@ -67,29 +64,28 @@ namespace MAT_script_runner
 
         private void Button_TCPIP_Connection_Click(object sender, EventArgs e)
         {
-            Panel_Home.Enabled = false;
-            Panel_Connection.Visible = true;
-            Panel_TCP.Visible = true;
-            Panel_Bluetooth.Visible = false;
-            
-
-            Button_Start_Connection.Text = "Start TCPIP Connection";
+            Panel_Controls.Enabled = !Panel_Controls.Enabled;
         }
 
         private void Button_Bluetooth_Connection_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             Panel_Home.Enabled = false;
             Panel_Connection.Visible = true;
             Panel_Bluetooth.Visible = true;
             Panel_TCP.Visible = false;
             Checkbox_Voice.Visible = true;
+=======
+            Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
 
-            Button_Start_Connection.Text = "Start Bluetooth Connection";
+            Panel_Home.Visible = false;
+            Panel_Connection.Visible = true;
         }
 
-        private void Button_Start_Connection_Click(object sender, EventArgs e)
+        private void Button_Start_Bluetooth_Connection_Click(object sender, EventArgs e)
         {
-            if (Button_Start_Connection.Text == "Start Bluetooth Connection")
+            if (Button_Start_Bluetooth_Connection.Text == "Start Bluetooth Connection")
             {
                 comPort.PortName = "COM" + Numeric_COM_Port.Value.ToString();
                 comPort.BaudRate = 115200;
@@ -119,10 +115,8 @@ namespace MAT_script_runner
                         countdown.Play();
                     }
 
-                    Button_Start_Connection.Text = "Stop Bluetooth Connection";
-                    Button_Connection_Back.Enabled = false;
+                    Button_Start_Bluetooth_Connection.Text = "Stop Bluetooth Connection";
                     Panel_Controls.Enabled = false;
-                    Panel_Bluetooth.Enabled = false;
 
                     Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
                     Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
@@ -132,12 +126,10 @@ namespace MAT_script_runner
                     Timer_Receive_Samples.Enabled = true;
                 }
             }
-            else if (Button_Start_Connection.Text == "Stop Bluetooth Connection")
+            else
             {
-                Button_Start_Connection.Text = "Start Bluetooth Connection";
-                Button_Connection_Back.Enabled = true;
+                Button_Start_Bluetooth_Connection.Text = "Start Bluetooth Connection";
                 Panel_Controls.Enabled = true;
-                Panel_Bluetooth.Enabled = true;
 
                 try
                 {
@@ -146,11 +138,11 @@ namespace MAT_script_runner
 
                     Label_Status.Text = "Standby";
                     Label_Status.ForeColor = Color.Gray;
-                }
+            }
                 catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + "\n\nError closing COM port.");
-                }
+            {
+                MessageBox.Show(ex.Message + "\n\nError closing COM port.");
+            }
 
                 if (!comPort.IsOpen)
                 {
@@ -158,19 +150,18 @@ namespace MAT_script_runner
 
                     if (Checkbox_Auto_Execute.Checked)
                     {
-                        matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
-                        object result = null;
-                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
-                            Properties.Settings.Default.InputDirectory, Properties.Settings.Default.OutputDirectory, Properties.Settings.Default.GestureName,
-                            Properties.Settings.Default.ParticipantNumber, Properties.Settings.Default.TrialNumber, 0, 0, Checkbox_Plot_Mode.Checked ? 1 : 0, 0, 0, 0);
+                            matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
+                            object result = null;
+                            matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                Properties.Settings.Default.InputDirectory, Properties.Settings.Default.OutputDirectory, Properties.Settings.Default.GestureName,
+                                Properties.Settings.Default.ParticipantNumber, Properties.Settings.Default.TrialNumber, 0, 0, Checkbox_Plot_Mode.Checked ? 1 : 0, 0, 0, 0);
                     }
 
                     if (Checkbox_Auto_Increment.Checked)
                     {
                         Properties.Settings.Default.TrialNumber++;
-                        Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
-                        Properties.Settings.Default.Save();
                     }
+<<<<<<< HEAD
                 }
             }
             else if (Button_Start_Connection.Text == "Start TCPIP Connection")
@@ -239,15 +230,25 @@ namespace MAT_script_runner
                     Properties.Settings.Default.Save();
                 }   
             }
+=======
+                    
+                    Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+                    Properties.Settings.Default.Save();
+                }
+            }
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
         }
 
-        private void Button_Connection_Back_Click(object sender, EventArgs e)
+        private void Button_Bluetooth_Back_Click(object sender, EventArgs e)
         {
-            Panel_Home.Enabled = true;
+            Panel_Home.Visible = true;
             Panel_Connection.Visible = false;
+<<<<<<< HEAD
             Panel_Bluetooth.Visible = false;
             Panel_TCP.Visible = false;
             Checkbox_Voice.Visible = false;
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -260,6 +261,7 @@ namespace MAT_script_runner
             Properties.Settings.Default.COMPort = (int) Numeric_COM_Port.Value;
             Properties.Settings.Default.Save();
         }
+<<<<<<< HEAD
 
         private void Textbox_IP_TextChanged(object sender, EventArgs e)
         {
@@ -272,6 +274,8 @@ namespace MAT_script_runner
             Properties.Settings.Default.Port = (int)Numeric_Port.Value;
             Properties.Settings.Default.Save();
         }
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
 
         private void Checkbox_Auto_Execute_CheckedChanged(object sender, EventArgs e)
         {
@@ -285,25 +289,20 @@ namespace MAT_script_runner
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + "\nError Opening MATLAB Command Window.");
-                } 
+                }
+                
             }
         }
 
         private void Timer_Receive_Samples_Tick(object sender, EventArgs e)
         {
-            if (Panel_Bluetooth.Visible)
+            try
             {
-                try
-                {
-                    stream.Write(comPort.ReadExisting());
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                stream.Write(comPort.ReadExisting());
             }
-            else if (Panel_TCP.Visible)
+            catch (Exception ex)
             {
+<<<<<<< HEAD
                 try
                 {
                     netStream.ReadAsync(buffer, 0, 3000);
@@ -313,6 +312,9 @@ namespace MAT_script_runner
                 {
                     MessageBox.Show(ex.Message);
                 }
+=======
+                MessageBox.Show(ex.Message);
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
             }
         }
 
@@ -321,6 +323,7 @@ namespace MAT_script_runner
             Properties.Settings.Default.TrialNumber = (int) Numeric_Quick_Trial.Value;
             Properties.Settings.Default.Save();
         }
+<<<<<<< HEAD
 
         private void Numeric_Quick_Participant_ValueChanged(object sender, EventArgs e)
         {
@@ -332,5 +335,7 @@ namespace MAT_script_runner
         {
             
         }
+=======
+>>>>>>> parent of 5e0bdaf (Adjusted form layout)
     }
 }

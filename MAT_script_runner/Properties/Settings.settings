@@ -6,7 +6,7 @@
       <Value Profile="(Default)">.\Input\</Value>
     </Setting>
     <Setting Name="ParticipantNumber" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="TrialNumber" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
@@ -22,12 +22,6 @@
     </Setting>
     <Setting Name="COMPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
-    </Setting>
-    <Setting Name="IP" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="Port" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

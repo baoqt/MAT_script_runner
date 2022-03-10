@@ -108,11 +108,6 @@ namespace MAT_script_runner
             // Numeric_Trial
             // 
             this.Numeric_Trial.Location = new System.Drawing.Point(137, 55);
-            this.Numeric_Trial.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.Numeric_Trial.Name = "Numeric_Trial";
             this.Numeric_Trial.Size = new System.Drawing.Size(269, 23);
             this.Numeric_Trial.TabIndex = 4;

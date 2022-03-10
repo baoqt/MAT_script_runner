@@ -37,7 +37,7 @@ namespace MAT_script_runner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int ParticipantNumber {
             get {
                 return ((int)(this["ParticipantNumber"]));
@@ -104,30 +104,6 @@ namespace MAT_script_runner.Properties {
             }
             set {
                 this["COMPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string IP {
-            get {
-                return ((string)(this["IP"]));
-            }
-            set {
-                this["IP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Port {
-            get {
-                return ((int)(this["Port"]));
-            }
-            set {
-                this["Port"] = value;
             }
         }
     }
