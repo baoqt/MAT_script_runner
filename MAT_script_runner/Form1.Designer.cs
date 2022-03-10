@@ -59,9 +59,12 @@ namespace MAT_script_runner
             this.Label_IP = new System.Windows.Forms.Label();
             this.Label_Port = new System.Windows.Forms.Label();
             this.Numeric_Port = new System.Windows.Forms.NumericUpDown();
+<<<<<<< HEAD
             this.Background_TCP = new System.ComponentModel.BackgroundWorker();
 =======
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
+=======
+>>>>>>> parent of 782ef7c (Adjusted TCP functionality)
             this.Panel_Home.SuspendLayout();
             this.Panel_Connection.SuspendLayout();
             this.Panel_Controls.SuspendLayout();
@@ -205,7 +208,6 @@ namespace MAT_script_runner
             this.Checkbox_Voice.TabIndex = 11;
             this.Checkbox_Voice.Text = "Enable Voice Prompt";
             this.Checkbox_Voice.UseVisualStyleBackColor = true;
-            this.Checkbox_Voice.Visible = false;
             // 
             // Checkbox_Plot_Mode
             // 
@@ -354,7 +356,6 @@ namespace MAT_script_runner
             this.Panel_Bluetooth.Name = "Panel_Bluetooth";
             this.Panel_Bluetooth.Size = new System.Drawing.Size(186, 125);
             this.Panel_Bluetooth.TabIndex = 12;
-            this.Panel_Bluetooth.Visible = false;
             // 
             // Panel_TCP
             // 
@@ -422,12 +423,15 @@ namespace MAT_script_runner
             0});
             this.Numeric_Port.ValueChanged += new System.EventHandler(this.Numeric_Port_ValueChanged);
             // 
+<<<<<<< HEAD
             // Background_TCP
             // 
             this.Background_TCP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Background_TCP_DoWork);
             // 
 =======
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
+=======
+>>>>>>> parent of 782ef7c (Adjusted TCP functionality)
             // MAT_Script_Runner
             // 
             this.AcceptButton = this.Button_Start_Bluetooth_Connection;
@@ -440,8 +444,7 @@ namespace MAT_script_runner
             this.Controls.Add(this.Panel_Connection);
             this.Controls.Add(this.Panel_Controls);
             this.Controls.Add(this.Panel_Home);
-            this.MaximumSize = new System.Drawing.Size(400, 450);
-            this.MinimumSize = new System.Drawing.Size(400, 450);
+            this.MinimumSize = new System.Drawing.Size(400, 350);
             this.Name = "MAT_Script_Runner";
             this.Text = "MAT Script Runner";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -490,9 +493,12 @@ namespace MAT_script_runner
         private System.Windows.Forms.TextBox Textbox_IP;
         public System.Windows.Forms.NumericUpDown Numeric_Quick_Participant;
         private System.Windows.Forms.Label label1;
+<<<<<<< HEAD
         private System.ComponentModel.BackgroundWorker Background_TCP;
 =======
 >>>>>>> parent of 5e0bdaf (Adjusted form layout)
+=======
+>>>>>>> parent of 782ef7c (Adjusted TCP functionality)
     }
 }
 
