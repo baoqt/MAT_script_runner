@@ -465,7 +465,10 @@ namespace MAT_script_runner
             // 
             // Background_TCP
             // 
+            this.Background_TCP.WorkerReportsProgress = true;
+            this.Background_TCP.WorkerSupportsCancellation = true;
             this.Background_TCP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Background_TCP_DoWork);
+            this.Background_TCP.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Background_TCP_RunWorkerCompleted);
             // 
             // MAT_Script_Runner
             // 
@@ -485,6 +488,7 @@ namespace MAT_script_runner
             this.MinimumSize = new System.Drawing.Size(400, 450);
             this.Name = "MAT_Script_Runner";
             this.Text = "MAT Script Runner";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MAT_Script_Runner_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Panel_Home.ResumeLayout(false);
             this.Panel_Connection.ResumeLayout(false);

@@ -25,7 +25,7 @@ namespace MAT_script_runner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\Input\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Input")]
         public string InputDirectory {
             get {
                 return ((string)(this["InputDirectory"]));
@@ -73,7 +73,7 @@ namespace MAT_script_runner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\Output\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Output")]
         public string OutputDirectory {
             get {
                 return ((string)(this["OutputDirectory"]));
@@ -85,7 +85,7 @@ namespace MAT_script_runner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\Scripts\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Scripts")]
         public string ScriptDirectory {
             get {
                 return ((string)(this["ScriptDirectory"]));
@@ -128,6 +128,18 @@ namespace MAT_script_runner.Properties {
             }
             set {
                 this["Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30, 30")]
+        public global::System.Drawing.Point Location {
+            get {
+                return ((global::System.Drawing.Point)(this["Location"]));
+            }
+            set {
+                this["Location"] = value;
             }
         }
     }

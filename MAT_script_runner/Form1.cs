@@ -23,6 +23,7 @@ namespace MAT_script_runner
         StreamWriter stream;
         NetworkStream netStream;
         TcpClient client = null;
+        Task<TcpClient> asyncStatus = null;
 
         static SerialPort comPort = new SerialPort();
         TcpListener server = null;
@@ -183,30 +184,15 @@ namespace MAT_script_runner
                     Label_Status.Text = "Waiting";
                     Label_Status.ForeColor = Color.YellowGreen;
 
-                    client = server.AcceptTcpClient();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + "\n\n Error socket exception.");
-                }
-
-                if (client.Connected)
-                {
-                    Label_Status.Text = "Recording";
-                    Label_Status.ForeColor = Color.LimeGreen;
                     Button_Start_Connection.Text = "Stop TCPIP Connection";
                     Button_Connection_Back.Enabled = false;
                     Panel_Controls.Enabled = false;
                     Panel_TCP.Enabled = false;
-
-                    netStream = client.GetStream();
-
-                    Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
-                    Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
-                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
-                        Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
-
-                    Timer_Receive_Samples.Enabled = true;
+                    Background_TCP.RunWorkerAsync();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "\n\n Error socket exception.");
                 }
             }
             else if (Button_Start_Connection.Text == "Stop TCPIP Connection")
@@ -218,10 +204,21 @@ namespace MAT_script_runner
 
                 try
                 {
-                    client.Close();
-                    server.Stop();
-                    stream.Close();
+                    Background_TCP.CancelAsync();
 
+                    if (client != null)
+                    {
+                        client.Close();                     
+                        stream.Close();
+                        client = null;
+                    }
+
+                    if (server != null)
+                    {
+                        server.Stop();
+                        server = null;
+                    }
+                    
                     Label_Status.Text = "Standby";
                     Label_Status.ForeColor = Color.Gray;
                 }
@@ -252,7 +249,13 @@ namespace MAT_script_runner
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Location = Properties.Settings.Default.Location;
+        }
 
+        private void MAT_Script_Runner_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.Location = Location;
+            Properties.Settings.Default.Save();
         }
 
         private void Numeric_COM_Port_ValueChanged(object sender, EventArgs e)
@@ -306,8 +309,21 @@ namespace MAT_script_runner
             {
                 try
                 {
-                    netStream.ReadAsync(buffer, 0, 3000);
-                    stream.Write(System.Text.Encoding.ASCII.GetString(buffer, 0, buffer.Length));
+                    int bytesRead = 0;
+                    byte[] ack = new byte[] { (byte)'G', (byte)'o', (byte)'t', (byte)'c', (byte)'h', (byte)'a', (byte)'!' };
+
+                    if (netStream.DataAvailable)
+                    {
+                        bytesRead = netStream.Read(buffer, 0, buffer.Length);
+                        netStream.Write(ack, 0, 7);
+                    }
+
+                    Label_Status.Text = bytesRead.ToString();
+
+                    if (bytesRead > 0)
+                    {
+                        stream.Write(System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -330,7 +346,46 @@ namespace MAT_script_runner
 
         private void Background_TCP_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            asyncStatus = server.AcceptTcpClientAsync();
+
+            while (!asyncStatus.IsCompleted)
+            {
+                if (worker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+            }
+                worker.ReportProgress(100);
+        }
+
+        private void Background_TCP_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+            else if (e.Cancelled)
+            {
+                MessageBox.Show("Canceled.");
+            }
+            else
+            {
+                Label_Status.Text = "Recording";
+                Label_Status.ForeColor = Color.LimeGreen;
+
+                client = asyncStatus.Result;
+                netStream = client.GetStream();
+
+                Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
+                Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
+                stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
+                    Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
+
+                Timer_Receive_Samples.Enabled = true;
+            }
         }
     }
 }
