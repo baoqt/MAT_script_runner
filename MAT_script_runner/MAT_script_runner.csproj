@@ -36,8 +36,8 @@
     <None Remove="jointangle_sagittal_upperlimb.m" />
     <None Remove="Master_XZ_Bao_06072021.m" />
     <None Remove="peakdet.m" />
+    <None Remove="SensorKinematicsE_auto.m" />
     <None Remove="SensorKinematicsE_block.m" />
-    <None Remove="SensorKinematicsE_block_auto.m" />
     <None Remove="Sensor_Vicon_Batch.m" />
     <None Remove="TenaSensor2_BlockTask_ViconData.m" />
     <None Remove="TenaSensor2_BlockTask_ViconData_auto.m" />
@@ -68,7 +68,7 @@
     <Content Include="peakdet.m">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SensorKinematicsE_block_auto.m">
+    <Content Include="SensorKinematicsE_auto.m">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Sensor_Vicon_Batch.m">
@@ -90,6 +90,42 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Quaternions\axisAngle2quatern.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\axisAngle2rotMat.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\euler2rotMat.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\quatern2euler.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\quatern2rotMat.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\quaternConj.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\quaternProd.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\quaternRotate.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\rotMat2euler.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\rotMat2quatern.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Quaternions\TestScript.m">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

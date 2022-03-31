@@ -39,71 +39,20 @@ vr = sqrt((vx.^2)+(vy.^2)+(vz.^2));
 %    plot(maxtab_vr(:,1), maxtab_vr(:,2), 'r*'); hold on; title('Resultant Velocity'); hold on;
 %end
 %--------------------------- Calculate Onset ----------------------------
-MinDuration = 50;
-
-if any(vr(maxtab_vr(1,1):-1:1)<maxtab_vr(1,2)*0.01)
-        for onset_vr = maxtab_vr(1,1):-1:1
-            
-            if onset_vr - MinDuration > 1
-                minZeroVelocityFrom =  onset_vr - MinDuration;
-            else
-                minZeroVelocityFrom = 1;
-            end   
-            
-            if (vr(onset_vr)<maxtab_vr(1,2)*0.01 ) && (mean(vr(minZeroVelocityFrom:onset_vr))<0.05)
-                break
-            end
-        end
-    else
-        for onset_vr = maxtab_vr(1,1):-1:1
-            
-            if onset_vr - MinDuration > 1
-                minZeroVelocityFrom =  onset_vr - MinDuration;
-            else
-                minZeroVelocityFrom = 1;
-            end
-
-            
-            if (vr(onset_vr)< maxtab_vr(1,2)*0.05) && (mean(vr(minZeroVelocityFrom:onset_vr))<0.1)
-                break
-            end
-        end
+for onset_vr = maxtab_vr(1,1):-1:1
+                if vr(onset_vr)<maxtab_vr(2,2)*0.015;
+                    break
+                end
 end
-   
-    %--------------------------- Calculate Offset ----------------------------
-   MinDuration = 75;
-   sizeMaxtab = size(maxtab_vr);
-        
-   if any(vr(maxtab_vr(sizeMaxtab(1),1):1:end)<maxtab_vr(sizeMaxtab(1),2)*0.01)
-    for offset_vr = (maxtab_vr(sizeMaxtab(1),1):1:length(vr)-1)
 
-        if offset_vr + MinDuration < length(vr)
-            minZeroVelocityUntil =  offset_vr + MinDuration;
-        else
-            minZeroVelocityUntil = length(vr);
-        end
 
-        if (vr(offset_vr)< maxtab_vr(sizeMaxtab(1),2)*0.01) || ((mean(vr(offset_vr:minZeroVelocityUntil))<0.02) && (vr(offset_vr)< 0.005))
-            break
-        end
-    end
-elseif any(vr(maxtab_vr(sizeMaxtab(1),1):1:size(vr)<maxtab_vr(sizeMaxtab(1),2)*0.05))
-    for offset_vr = (maxtab_vr(sizeMaxtab(1),1):1:length(vr)-1)
+%Determine Offset
+for offset_vr = (maxtab_vr(size(maxtab_vr, 1),1):1:length(vr)-1)
+                if vr(offset_vr)< maxtab_vr(size(maxtab_vr, 2),2)*0.015;
+                    break
+                end
+ end
 
-        if offset_vr + MinDuration < length(vr)
-            minZeroVelocityUntil =  offset_vr + MinDuration;
-        else
-            minZeroVelocityUntil = length(vr);
-        end
-
-        if (vr(offset_vr)< maxtab_vr(sizeMaxtab(1),2)*0.05) || ((mean(vr(offset_vr:minZeroVelocityUntil))<0.02) && (vr(offset_vr)< 0.005))
-            break
-        end
-    end
-else
-    [s, loc_offset_vr] = min(vr(maxtab_vr(sizeMaxtab(1),1):1:length(vr)-1));
-    offset_vr = loc_offset_vr + maxtab_vr(sizeMaxtab(1),1) -1;
-end
 
 % plot(onset_vr, vr(onset_vr), 'r*'); plot(offset_vr, vr(offset_vr), 'r*');
 % legend('VR', 'VR Peaks' , 'VR Onset', 'VR Offset');

@@ -1,6 +1,4 @@
-
-
-function [outcome] = SensorKinematicsE_block_auto(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, manTrimLeft, manTrimRight, plot_mode, stationaryThreshold, kpStat, kpMove)
+function [outcome] = SensorKinematicsE_auto(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, manTrimLeft, manTrimRight, plot_mode, stationaryThreshold, kpStat, kpMove)
 
 %% Import Libraries
 addpath('Quaternions');
@@ -9,30 +7,51 @@ addpath('Quaternions');
 
 % Do Not Delete this section. This will make sure the csv output is as
 % correct as possible should the script or test fail.
-errorVelocity = 0;
-errorScript = 0;
-salimu = 0;
-mtimu = 0;
-ImaxVel = 0;
-corrvaluex= 0; RMSE = 0; peakdetThres = 0;
-jerkimu_dim =0;
-jerkimu_dim_log =0;
-ImaxVel = 0; ImeanVelocity =0;
-ImaxAccel = 0;  ImeanAccel = 0;   stdAccel = 0;
-TimeFromOnsetToLastPeak = 0;   TimeFromOnsetToFirstPeak =0;
-TimeFromOnsetToHighestPeak = 0;   TimeFromOnsetToLowestPeak = 0;
+% errorVelocity = 0;
+% errorScript = 0;
+% salimu = 0;
+% mtimu = 0;
+% ImaxVel = 0;
+% corrvaluex= 0; RMSE = 0; peakdetThres = 0;
+% jerkimu_dim =0;
+% jerkimu_dim_log =0;
+% ImaxVel = 0; ImeanVelocity =0;
+% ImaxAccel = 0;  ImeanAccel = 0;   stdAccel = 0;
+% TimeFromOnsetToLastPeak = 0;   TimeFromOnsetToFirstPeak =0;
+% TimeFromOnsetToHighestPeak = 0;   TimeFromOnsetToLowestPeak = 0;
 
 %% Assign defaults if specified in arguments
 if stationaryThreshold <= 0                     
     stationaryThreshold = 0.0025;               
 end
 
-if kpStat == 0
-    kpStat = 0;
-end
 
-if kpMove == 0
-    kpMove = 0.5;     % 10
+
+switch GestureName
+    case "Block"
+        if kpStat == 0
+            kpStat = 0;
+        end
+
+        if kpMove == 0
+            kpMove = 2;     % 10
+        end  
+    case "Glass"
+        if kpStat == 0
+            kpStat = 0.5;
+        end
+
+        if kpMove == 0
+            kpMove = 2;     % 10
+        end
+    case "Nose"
+        if kpStat == 0
+            kpStat = 0;
+        end
+
+        if kpMove == 0
+            kpMove = 6;     % 10
+        end
 end
 
 outcome = ["-1", "-1"];
@@ -44,7 +63,7 @@ TrialNum = int2str(TrialNumInt);
 
 %% IMU Data Entry (Paste Data or Read From File)
 % Load IMU File
-data = csvread(strcat(InputPath, '\', SubjectNum, '_', TrialNum, '.csv'), 0,1); % IMU file name will have one '_'
+data = csvread(strcat(InputPath, '\', SubjectNum, '_', TrialNum, '.csv'), 0,0); % IMU file name will have one '_'
 data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
 
         %% Pre-Processing Filter
@@ -57,15 +76,45 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         %% Automatic Trimming of IMU
 
     g = 9.81;
+    if (GestureName == "Nose")
+        if (size(data, 2) == 6)
+            axTemp = (data2(:, 1)/g);
+            ayTemp = (data2(:,3)/g);
+            azTemp = -(data2(:,2)/g+1);
+
+            gyrXTemp = data2(:,4);
+            gyrYTemp = data2(:,6);
+            gyrZTemp = -data2(:,5);
+        else
+            axTemp = (data2(:,2)/g);
+            ayTemp = (data2(:,4)/g);
+            azTemp = -(data2(:,3)/g+1);
+
+            gyrXTemp = data2(:,5);
+            gyrYTemp = data2(:,7);
+            gyrZTemp = -data2(:,6);
+        end
+    else
+        if (size(data, 2) == 6)
+            axTemp = (data2(:, 1)/g);
+            ayTemp = (data2(:,3)/g);
+            azTemp = -(data2(:,2)/g+1);
+
+            gyrXTemp = data2(:,4);
+            gyrYTemp = data2(:,6);
+            gyrZTemp = -data2(:,5);
+        else
+            axTemp = (data2(:,2)/g);
+            ayTemp = (data2(:,4)/g);
+            azTemp = -(data2(:,3)/g+1);
+
+            gyrXTemp = data2(:,5);
+            gyrYTemp = data2(:,7);
+            gyrZTemp = -data2(:,6);
+        end
+    end
     
-    ayTemp = (data2(:,2)/g);
-    azTemp = (data2(:,3)/g+1);
-    
-    gyrXTemp = data2(:,4);
-    gyrYTemp = data2(:,5);
-    gyrZTemp = data2(:,6);
-    
-    ac1_mag = sqrt(  (data2(:,1)/g).*(data2(:,1)/g)   +   (data2(:,2)/g).*(data2(:,2)/g)  +   (data2(:,3)/g+1).*(data2(:,3)/g+1)  );
+    ac1_mag = sqrt((axTemp) .* (axTemp) + (ayTemp) .* (ayTemp) + (azTemp) .* (azTemp));
     trimTempL1 = max([1 min([find( azTemp<0.7, 1,'first') find(abs(gyrXTemp)>10,1,'first') find(abs(gyrYTemp)>10,1,'first') find(abs(gyrZTemp)>10,1,'first') find( abs(ac1_mag-1) > 0.1 , 1,'first')])  ]);
     trimLeft = max([1 find( abs(ac1_mag(1:trimTempL1)-1) < 0.025 , 1,'last')-100]);
     
@@ -89,13 +138,45 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     samplePeriod = 1/100;
     
     g = 9.81;
-    accX = data(:,1)/g;
-    accY = data(:,2)/g;
-    accZ = data(:,3)/g+1;
     
-    gyrX = data(:,4);
-    gyrY = data(:,5);
-    gyrZ = data(:,6);
+    if (GestureName == "Nose")
+        if (size(data, 2) == 6)
+            accX = data(:,1)/g;
+            accY = data(:,3)/g;
+            accZ = -data(:,2)/g+1;
+
+            gyrX = data(:,4);
+            gyrY = data(:,6);
+            gyrZ = -data(:,5);
+        else
+            accX = data(:,2)/g;
+            accY = data(:,4)/g;
+            accZ = -data(:,3)/g+1;
+
+            gyrX = data(:,5);
+            gyrY = data(:,7);
+            gyrZ = -data(:,6);
+        end
+    
+    else
+        if (size(data, 2) == 6)
+            accX = data(:,1)/g;
+            accY = data(:,2)/g;
+            accZ = data(:,3)/g+1;
+
+            gyrX = data(:,4);
+            gyrY = data(:,5);
+            gyrZ = data(:,6);
+        else
+            accX = data(:,2)/g;
+            accY = data(:,3)/g;
+            accZ = data(:,4)/g+1;
+
+            gyrX = data(:,5);
+            gyrY = data(:,6);
+            gyrZ = data(:,7);
+        end
+    end
     
     
     time = 0:samplePeriod:(length(data(:,1))-1)*samplePeriod;
@@ -118,55 +199,106 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     % Detect stationary periods
     
     % Compute accelerometer magnitude
-    acc_mag = sqrt(  (data2(:,1)/g).*(data2(:,1)/g)   +   (data2(:,2)/g).*(data2(:,2)/g)  +   (data2(:,3)/g+1).*(data2(:,3)/g+1)  );
+    acc_mag = sqrt((accX) .* (accX) + (accY) .* (accY) + (accZ) .* (accZ));
+    gyr_mag = sqrt((gyrX) .* (gyrX) + (gyrY) .* (gyrY) + (gyrZ) .* (gyrZ));
        
     % HP filter accelerometer data
     filtCutOff = 0.001; %0.001
     [b, a] = butter(1, (2*filtCutOff)/(1/samplePeriod), 'high');
     acc_magFilt = filtfilt(b, a, acc_mag);
+    gyr_magFilt = filtfilt(b, a, gyr_mag);
     
     % Compute absolute value
     acc_magFilt = abs(acc_magFilt);
+    gyr_magFilt = abs(gyr_magFilt);
     
     % LP filter accelerometer data
     filtCutOff = 2; %2
     [b, a] = butter(1, (2*filtCutOff)/(1/samplePeriod), 'low');
-    acc_magFilt = filtfilt(b, a, acc_magFilt); 
+    acc_magFilt = filtfilt(b, a, acc_magFilt);
+    gyr_magFilt = filtfilt(b, a, gyr_magFilt);
 
     %Threshold detection
-    for stationaryStart = 0.025:0.002:0.1
-        stationary = acc_magFilt < stationaryStart;
-        if ( (mean(stationary(1:20)))<1  )
-            
-        else
-            break;
+    if (GestureName == "Nose")     
+        tempPeak = findpeaks(acc_magFilt, 'MinPeakProminence', max(acc_magFilt) * 0.25);
+        
+        for stationaryStart = 0.05:0.05:0.25
+            stationary = (acc_magFilt < max(0.025, stationaryStart * tempPeak(1))) & ...
+                (gyr_magFilt < 500 * stationaryStart);
+            if ( (mean(stationary(1:20)))<1  )
+
+            else
+                break;
+            end
         end
-    end
-    
-    if plot_mode ==1
-        stationaryStart
-    end
-    
-    l = min([find(stationary<1,1) find(abs(gyrXTemp)>10,1,'first') find(abs(gyrYTemp)>10,1,'first') find(abs(gyrZTemp)>10,1,'first')]);
-    
-    for stationaryStop = 0.025:0.002:0.1
-        stationary = acc_magFilt < stationaryStop;
-        if (   (mean(stationary((end-20):end))) < 1  )
-            
-        else
-            break;
+
+        %l = min([find(stationary<1,1) find(abs(gyrXTemp)>10,1,'first') find(abs(gyrYTemp)>10,1,'first') find(abs(gyrZTemp)>10,1,'first')]);
+        l = find(stationary<1, 1);
+        for stationaryStop = 0.05:0.05:0.25
+            stationary = (acc_magFilt < stationaryStop * max(0.025, tempPeak(length(tempPeak)))) & ...
+                (gyr_magFilt < 500 * stationaryStop);
+            if (   (mean(stationary((end-20):end))) < 1  )
+
+            else
+                break;
+            end
         end
+
+        stationary(1:l) = 1;
+        %r = max([find(stationary<1,1, 'last') find(abs(gyrXTemp)>10,1,'last') find(abs(gyrYTemp)>10,1,'last') find(abs(gyrZTemp)>10,1,'last')]);
+        r = find(stationary<1, 1, 'last');
+        mt_imu_with_stationary = r-l;
+
+        [acc_peaks, acc_peaks_x] = findpeaks(acc_magFilt(l:r), 'MinPeakProminence', max(acc_magFilt(l:r)) * 0.25);
+
+        acc_gest_stat = zeros(length(acc_magFilt(l:r)), 1);
+        for i = 1:1:length(acc_peaks) - 1
+            acc_gest_stat(acc_peaks_x(i):acc_peaks_x(i + 1)) = acc_gest_stat(acc_peaks_x(i):acc_peaks_x(i + 1)) | ...
+                (acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1)) < 0.025 * ...
+                ((max(acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1)))) - ...
+                min(acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1)))) + ...
+                min(acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1))));
+        end
+
+        [gyr_peaks, gyr_peaks_x] = findpeaks(gyr_magFilt(l:r), 'MinPeakProminence', max(gyr_magFilt(l:r)) * 0.25);
+
+        gyr_gest_stat = zeros(length(gyr_magFilt(l:r)), 1);
+        for i = 1:1:length(gyr_peaks) - 1
+            gyr_gest_stat(gyr_peaks_x(i):gyr_peaks_x(i + 1)) = gyr_gest_stat(gyr_peaks_x(i):gyr_peaks_x(i + 1)) | ...
+                (gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1)) < 0.025 * ...
+                ((max(gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1)))) - ...
+                min(gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1)))) + ...
+                min(gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1))));
+        end
+
+        stationary(l:r) = acc_gest_stat | gyr_gest_stat;
+    else
+        for stationaryStart = 0.025:0.002:0.1
+            stationary = acc_magFilt < stationaryStart;
+            if ( (mean(stationary(1:20)))<1  )
+
+            else
+                break;
+            end
+        end
+
+        l = min([find(stationary<1,1) find(abs(gyrXTemp)>10,1,'first') find(abs(gyrYTemp)>10,1,'first') find(abs(gyrZTemp)>10,1,'first')]);
+
+        for stationaryStop = 0.025:0.002:0.1
+            stationary = acc_magFilt < stationaryStop;
+            if (   (mean(stationary((end-20):end))) < 1  )
+
+            else
+                break;
+            end
+        end
+
+        stationary(1:l) = 1;
+        r = max([find(stationary<1,1, 'last') find(abs(gyrXTemp)>10,1,'last') find(abs(gyrYTemp)>10,1,'last') find(abs(gyrZTemp)>10,1,'last')]);
+        mt_imu_with_stationary = r-l;
+
+        stationary(l:r) = acc_magFilt(l:r) < stationaryThreshold;
     end
-    
-    if plot_mode ==1
-        stationaryStop
-    end
-    
-    stationary(1:l) = 1;
-    r = max([find(stationary<1,1, 'last') find(abs(gyrXTemp)>10,1,'last') find(abs(gyrYTemp)>10,1,'last') find(abs(gyrZTemp)>10,1,'last')]);
-    mt_imu_with_stationary = r-l;
-    
-    stationary(l:r) = acc_magFilt(l:r) < stationaryThreshold;
   
     % -------------------------------------------------------------------------
     % Compute orientation
@@ -285,7 +417,7 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     [maxtab_IMUV, mintab_IMUV] = peakdet(IMUV, peakdetThres);
     
     if (length(maxtab_IMUV) > 5)
-       disp('Unexpected number of peaks, possible gesture data error?\n');   % Depending on gesture, determine if warning needed
+       disp("Unexpected number of peaks, possible gesture data error?");   % Depending on gesture, determine if warning needed
     end
    
     
@@ -382,6 +514,13 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         outcome = [TrialNum, errorText];
         %outcome = vertcat(outcome, errorEntry);
     end
+    
+    trimIx = IMU_vx(onset_IMUV:offset_IMUV);
+    trimIy = IMU_vy(onset_IMUV:offset_IMUV);
+    trimIz = IMU_vz(onset_IMUV:offset_IMUV);
+    
+    results = [func_SAL(trimIx, trimIy, trimIz), 10 * mean(trimI), 10 * (offset_IMUV - onset_IMUV)];
+    writematrix(results, strcat(OutputPath, "\Stats_", SubjectNum, "_", TrialNum, ".csv"));
 
 if plot_mode == 1
     % -------------------------------------------------------------------------

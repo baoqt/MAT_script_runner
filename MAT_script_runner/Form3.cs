@@ -42,6 +42,7 @@ namespace MAT_script_runner
             Properties.Settings.Default.Save();
 
             mainForm.Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+            mainForm.Numeric_Quick_Participant.Value = Properties.Settings.Default.ParticipantNumber;
 
             this.Dispose();
             this.Close();

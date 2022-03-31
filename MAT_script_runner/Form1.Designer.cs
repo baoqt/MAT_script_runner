@@ -111,6 +111,7 @@ namespace MAT_script_runner
             // 
             // Panel_Connection
             // 
+            this.Panel_Connection.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.Panel_Connection.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Panel_Connection.Controls.Add(this.Button_Start_Connection);
             this.Panel_Connection.Controls.Add(this.Button_Connection_Back);
@@ -138,6 +139,7 @@ namespace MAT_script_runner
             this.Button_Connection_Back.Name = "Button_Connection_Back";
             this.Button_Connection_Back.Size = new System.Drawing.Size(384, 80);
             this.Button_Connection_Back.TabIndex = 1;
+            this.Button_Connection_Back.TabStop = false;
             this.Button_Connection_Back.Text = "Back";
             this.Button_Connection_Back.UseVisualStyleBackColor = true;
             this.Button_Connection_Back.Click += new System.EventHandler(this.Button_Connection_Back_Click);
@@ -151,6 +153,7 @@ namespace MAT_script_runner
             this.Button_Filename_Formatting.Name = "Button_Filename_Formatting";
             this.Button_Filename_Formatting.Size = new System.Drawing.Size(187, 23);
             this.Button_Filename_Formatting.TabIndex = 3;
+            this.Button_Filename_Formatting.TabStop = false;
             this.Button_Filename_Formatting.Text = "Filename Formatting";
             this.Button_Filename_Formatting.UseVisualStyleBackColor = true;
             this.Button_Filename_Formatting.Click += new System.EventHandler(this.Button_Filename_Formatting_Click);
@@ -164,6 +167,7 @@ namespace MAT_script_runner
             this.Button_Open_Folders.Name = "Button_Open_Folders";
             this.Button_Open_Folders.Size = new System.Drawing.Size(87, 23);
             this.Button_Open_Folders.TabIndex = 2;
+            this.Button_Open_Folders.TabStop = false;
             this.Button_Open_Folders.Text = "Open Folders";
             this.Button_Open_Folders.UseVisualStyleBackColor = true;
             this.Button_Open_Folders.Click += new System.EventHandler(this.Button_Open_Folders_Click);
@@ -176,6 +180,7 @@ namespace MAT_script_runner
             this.Button_Directory_Settings.Name = "Button_Directory_Settings";
             this.Button_Directory_Settings.Size = new System.Drawing.Size(110, 23);
             this.Button_Directory_Settings.TabIndex = 4;
+            this.Button_Directory_Settings.TabStop = false;
             this.Button_Directory_Settings.Text = "Directory Settings";
             this.Button_Directory_Settings.UseVisualStyleBackColor = true;
             this.Button_Directory_Settings.Click += new System.EventHandler(this.Button_Directory_Settings_Click);
@@ -228,9 +233,9 @@ namespace MAT_script_runner
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(5, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 15);
+            this.label1.Size = new System.Drawing.Size(111, 15);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Parti. Number";
+            this.label1.Text = "Participant Number";
             // 
             // Checkbox_Voice
             // 
@@ -242,6 +247,7 @@ namespace MAT_script_runner
             this.Checkbox_Voice.Name = "Checkbox_Voice";
             this.Checkbox_Voice.Size = new System.Drawing.Size(155, 24);
             this.Checkbox_Voice.TabIndex = 11;
+            this.Checkbox_Voice.TabStop = false;
             this.Checkbox_Voice.Text = "Enable Voice Prompt";
             this.Checkbox_Voice.UseVisualStyleBackColor = true;
             this.Checkbox_Voice.Visible = false;
@@ -254,6 +260,7 @@ namespace MAT_script_runner
             this.Checkbox_Plot_Mode.Name = "Checkbox_Plot_Mode";
             this.Checkbox_Plot_Mode.Size = new System.Drawing.Size(155, 24);
             this.Checkbox_Plot_Mode.TabIndex = 9;
+            this.Checkbox_Plot_Mode.TabStop = false;
             this.Checkbox_Plot_Mode.Text = "Enable Plot Mode";
             this.Checkbox_Plot_Mode.UseVisualStyleBackColor = true;
             // 
@@ -265,6 +272,7 @@ namespace MAT_script_runner
             this.Checkbox_Auto_Execute.Name = "Checkbox_Auto_Execute";
             this.Checkbox_Auto_Execute.Size = new System.Drawing.Size(193, 24);
             this.Checkbox_Auto_Execute.TabIndex = 8;
+            this.Checkbox_Auto_Execute.TabStop = false;
             this.Checkbox_Auto_Execute.Text = "Auto-execute MAT Script";
             this.Checkbox_Auto_Execute.UseVisualStyleBackColor = true;
             this.Checkbox_Auto_Execute.CheckedChanged += new System.EventHandler(this.Checkbox_Auto_Execute_CheckedChanged);
@@ -279,6 +287,7 @@ namespace MAT_script_runner
             this.Checkbox_Auto_Increment.Name = "Checkbox_Auto_Increment";
             this.Checkbox_Auto_Increment.Size = new System.Drawing.Size(193, 24);
             this.Checkbox_Auto_Increment.TabIndex = 7;
+            this.Checkbox_Auto_Increment.TabStop = false;
             this.Checkbox_Auto_Increment.Text = "Auto-increment Trial Number";
             this.Checkbox_Auto_Increment.UseVisualStyleBackColor = true;
             // 
@@ -320,10 +329,10 @@ namespace MAT_script_runner
             // 
             // COM_Port_Label
             // 
-            this.COM_Port_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.COM_Port_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.COM_Port_Label.AutoSize = true;
             this.COM_Port_Label.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.COM_Port_Label.Location = new System.Drawing.Point(19, 101);
+            this.COM_Port_Label.Location = new System.Drawing.Point(19, 96);
             this.COM_Port_Label.Name = "COM_Port_Label";
             this.COM_Port_Label.Size = new System.Drawing.Size(60, 15);
             this.COM_Port_Label.TabIndex = 1;
@@ -332,7 +341,7 @@ namespace MAT_script_runner
             // Numeric_COM_Port
             // 
             this.Numeric_COM_Port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Numeric_COM_Port.Location = new System.Drawing.Point(83, 99);
+            this.Numeric_COM_Port.Location = new System.Drawing.Point(83, 94);
             this.Numeric_COM_Port.Minimum = new decimal(new int[] {
             1,
             0,
@@ -426,7 +435,7 @@ namespace MAT_script_runner
             this.Label_IP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Label_IP.AutoSize = true;
             this.Label_IP.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label_IP.Location = new System.Drawing.Point(19, 70);
+            this.Label_IP.Location = new System.Drawing.Point(19, 65);
             this.Label_IP.Name = "Label_IP";
             this.Label_IP.Size = new System.Drawing.Size(17, 15);
             this.Label_IP.TabIndex = 6;
@@ -437,7 +446,7 @@ namespace MAT_script_runner
             this.Label_Port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Label_Port.AutoSize = true;
             this.Label_Port.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label_Port.Location = new System.Drawing.Point(19, 101);
+            this.Label_Port.Location = new System.Drawing.Point(19, 96);
             this.Label_Port.Name = "Label_Port";
             this.Label_Port.Size = new System.Drawing.Size(29, 15);
             this.Label_Port.TabIndex = 1;
@@ -446,7 +455,7 @@ namespace MAT_script_runner
             // Numeric_Port
             // 
             this.Numeric_Port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Numeric_Port.Location = new System.Drawing.Point(83, 99);
+            this.Numeric_Port.Location = new System.Drawing.Point(83, 94);
             this.Numeric_Port.Minimum = new decimal(new int[] {
             1,
             0,

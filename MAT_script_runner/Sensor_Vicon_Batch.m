@@ -1,5 +1,5 @@
 clc;
-clear;
+clear;  
 close all;
 
 viconPlacePeak = -1;
@@ -8,53 +8,59 @@ imuPlacePeak = -1;
 viconReturnPeak = -1;
 imuReturnPeak = -1;
 
+task = "Nose";
+inputPath       = strcat("..\..\Data\Input\IMU\", task, "\");
+outputPath      = strcat("..\..\Data\Output\IMU\", task, "\");
+viconPath       = strcat("..\..\Data\Input\Vicon\", task, "\");
+viconOutputPath = strcat("..\..\Data\Output\Vicon\", task, "\");
 
-task = 'Block';
-inputPath       = '..\..\Data\Input\IMU\Block\';
-outputPath      = '..\..\Data\Output\IMU\Block\';
-viconPath       = '..\..\Data\Input\Vicon\Block\';
-viconOutputPath = '..\..\Data\Output\Vicon\Block\';
-viconFilename   = 'Block2';
+viconFilename   = "Nose";
 
-participant = 2;
-trial = 1;
+participant = 1;
+trial = 41;
 startTrial = trial;
-endTrial = 300;
-
+endTrial = 1;
 
 % Output headers here
-result = ["Trial", "correlation", "corrnorm", "covariance", "covnorm", "RMSE", "RMSEnorm", "mse", "msenorm", "viconpl", "imupl", "viconmt", "imumt", "viconplacepeak", "imuplacepeak", "viconreturnpeak", "imureturnpeak"];
+result = ["Trial", "correlation", "corrnorm", "covariance", "covnorm", ...
+    "RMSE", "RMSEnorm", "mse", "msenorm", "viconpl", "imupl", "viconmt", ...
+    "imumt", "viconplacepeak", "imuplacepeak", "viconreturnpeak", "imureturnpeak"];
 errors = ["Trial", "Error text"];
 
 % Resultant velocity processing scripts
 sensorMode = 1;
 viconMode = 1;
-plotMode = 0; % where 1 = plot on
+plotMode = 1; % where 1 = plot on
 
 % Requires sensorMode and viconMode to be true
 velocityMode = 1;
-velocityPlotMode = 0;
+velocityPlotMode = 1;
 
 % Requires sensorMode, viconMode, and velocityMode to be true
-outcomeMode = 1; %if outcomeMode = 0, then it won't save a csv
-
+outcomeMode = 0; %if outcomeMode = 0, then it won't save a csv
 
 for startTrial = startTrial:endTrial
+    disp(startTrial);
     if (sensorMode)
-        sensorError = SensorKinematicsE_block_auto(inputPath, outputPath, task, participant, startTrial, 0, 0, plotMode, 0, 0, 0);
+        sensorError = SensorKinematicsE_auto(inputPath, outputPath, ... 
+            task, participant, startTrial, 0, 0, plotMode, 0, 0, 0);
     
         if (sensorError(1,1) ~= "-1")
             errors = vertcat(errors, sensorError);
         end
     end
+    % 
     if (viconMode)
-        TenaSensor2_BlockTask_ViconData_auto(viconPath, viconOutputPath, viconFilename, startTrial, plotMode);
+        TenaSensor2_BlockTask_ViconData_auto(viconPath, viconOutputPath, ... 
+            viconFilename, startTrial, plotMode);
     end
     
     if (velocityMode && sensorMode && viconMode)
         try
-            vicon = readmatrix(strcat(viconOutputPath, 'Velocity_', viconFilename, '_', sprintf("%03d", startTrial), '.csv'));  
-            imu = readmatrix(strcat(outputPath, 'Velocity_', int2str(participant), '_', int2str(startTrial), '.csv'));  
+            vicon = readmatrix(strcat(viconOutputPath, 'Velocity_', ...
+                viconFilename, '_', sprintf("%03d", startTrial), '.csv'));  
+            imu = readmatrix(strcat(outputPath, 'Velocity_', ...
+                int2str(participant), '_', int2str(startTrial), '.csv'));  
         catch
             errorText = strcat("Trial ", int2str(startTrial), ": Missing velocity file.");
             disp(errorText);
@@ -64,7 +70,7 @@ for startTrial = startTrial:endTrial
         end
         
         imu = imu*10;
-
+        
         %Movement Time
         viconmt = length (vicon)*10;
         imumt = length (imu)*10;
@@ -100,8 +106,9 @@ for startTrial = startTrial:endTrial
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         if (velocityPlotMode)
-            figure(2)
+            f2 = figure(2);
             plot (vicon); hold on; plot (imu);
+            f2.Position = [625, 625, 560, 425];
         end
 
         [maxtab_vicon, mintab_vicon] = peakdet(vicon, .2);
@@ -148,15 +155,20 @@ for startTrial = startTrial:endTrial
         
         msenorm = immse (viconnorm, imunorm);
         
-        outcome = [startTrial, correlation, corrnorm, covariance, covnorm, RMSE, RMSEnorm, mse, msenorm, viconpl, imupl, viconmt, imumt, viconPlacePeak, imuPlacePeak, viconReturnPeak, imuReturnPeak];
-        result = [result; outcome];
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% similarity between signals
         
-
+        if (outcomeMode && sensorMode && viconMode && velocityMode)
+            outcome = [startTrial, correlation, corrnorm, covariance, covnorm, ...
+                RMSE, RMSEnorm, mse, msenorm, viconpl, imupl, viconmt, imumt, ...
+                viconPlacePeak, imuPlacePeak, viconReturnPeak, imuReturnPeak];
+            result = [result; outcome];
+        end
     end
 end
 
 if (outcomeMode && sensorMode && viconMode && velocityMode)
-     writematrix(result, strcat(outputPath, '\Result_', task, '_', int2str(participant), '_', int2str(trial), '-', int2str(endTrial), '.csv'));
+     writematrix(result, strcat(outputPath, '\Result_', task, '_', ...
+         int2str(participant), '_', int2str(trial), '-', int2str(endTrial), '.csv'));
 end
 
 disp("Finished!");

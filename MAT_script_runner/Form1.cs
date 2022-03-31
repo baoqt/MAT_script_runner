@@ -28,6 +28,7 @@ namespace MAT_script_runner
         static SerialPort comPort = new SerialPort();
         TcpListener server = null;
         Byte[] buffer = new Byte[3000];
+        bool IPFileOpenStatus = false;
         SoundPlayer countdown = new SoundPlayer(@"countdown.wav");
 
         public MAT_Script_Runner()
@@ -162,8 +163,9 @@ namespace MAT_script_runner
                         matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                         object result = null;
                         matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
-                            Properties.Settings.Default.InputDirectory, Properties.Settings.Default.OutputDirectory, Properties.Settings.Default.GestureName,
-                            Properties.Settings.Default.ParticipantNumber, Properties.Settings.Default.TrialNumber, 0, 0, Checkbox_Plot_Mode.Checked ? 1 : 0, 0, 0, 0);
+                            Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory + 
+                            "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber, 
+                            Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
                     }
 
                     if (Checkbox_Auto_Increment.Checked)
@@ -209,7 +211,7 @@ namespace MAT_script_runner
                     if (client != null)
                     {
                         client.Close();                     
-                        stream.Close();
+                        
                         client = null;
                     }
 
@@ -309,12 +311,14 @@ namespace MAT_script_runner
             {
                 try
                 {
-                    int bytesRead = 0;
+                    int bytesRead = 0; 
+                    string bufferString = new string("") ;
                     byte[] ack = new byte[] { (byte)'G', (byte)'o', (byte)'t', (byte)'c', (byte)'h', (byte)'a', (byte)'!' };
 
                     if (netStream.DataAvailable)
                     {
                         bytesRead = netStream.Read(buffer, 0, buffer.Length);
+                        bufferString = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
                         netStream.Write(ack, 0, 7);
                     }
 
@@ -322,7 +326,72 @@ namespace MAT_script_runner
 
                     if (bytesRead > 0)
                     {
-                        stream.Write(System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead));
+                        int bytesWritten = 0;
+
+                        while (bytesWritten < bytesRead)
+                        {
+                            int startIndex = bufferString[bytesWritten..^0].IndexOf("Start");
+                            int stopIndex = bufferString[bytesWritten..^0].IndexOf("Stop");
+
+                            if (stopIndex < startIndex)
+                            {
+                                stopIndex = bufferString[startIndex..^0].IndexOf("Stop");
+                            }
+
+                            if (IPFileOpenStatus)       // Still writing data from current trial, file already open
+                            {
+                                if (startIndex > 0)     // Start token found
+                                {
+                                    // Finish writing remaining file at beginning of buffer
+                                    stream.Write(bufferString[0..Math.Max(startIndex - 5, 0)]);
+                                    bytesWritten += Math.Max(startIndex - 5, 0);
+
+                                    stream.Close();
+
+                                    Properties.Settings.Default.TrialNumber++;
+                                    Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+                                    Properties.Settings.Default.Save();
+
+                                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
+                                        Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
+                                }
+
+                                // Write next chunk
+                                stream.Write(bufferString[(startIndex > -1 ? startIndex + 6 : 0)..(stopIndex > -1 ? stopIndex : ^0)]);
+                                bytesWritten += (stopIndex > -1 ? stopIndex : bytesRead) - (startIndex > -1 ? startIndex : 0);
+
+                                if (stopIndex > -1)      // Stop token found
+                                {
+                                    // Close file and prep trial number for next
+                                    stream.Close();
+
+                                    Properties.Settings.Default.TrialNumber++;
+                                    Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+                                    Properties.Settings.Default.Save();
+                                }
+                            }
+                            else                        // Not writing any data, no file open
+                            {
+                                if (startIndex > -1)    // Start token found
+                                {
+                                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
+                                        Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
+
+                                    // Write chunk
+                                    stream.Write(bufferString[(startIndex + 6)..(stopIndex > -1 ? stopIndex : ^0)]);
+                                    bytesWritten += (stopIndex > -1 ? stopIndex : bytesRead) - (startIndex);
+
+                                    if (stopIndex > -1) // Stop token found
+                                    {
+                                        stream.Close();
+
+                                        Properties.Settings.Default.TrialNumber++;
+                                        Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
+                                        Properties.Settings.Default.Save();
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -381,8 +450,7 @@ namespace MAT_script_runner
 
                 Directory.CreateDirectory(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName);
                 Directory.CreateDirectory(Properties.Settings.Default.OutputDirectory + @"\" + Properties.Settings.Default.GestureName);
-                stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
-                    Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
+                
 
                 Timer_Receive_Samples.Enabled = true;
             }
