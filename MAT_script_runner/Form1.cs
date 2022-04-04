@@ -73,7 +73,7 @@ namespace MAT_script_runner
             Panel_Connection.Visible = true;
             Panel_TCP.Visible = true;
             Panel_Bluetooth.Visible = false;
-            
+            Checkbox_Auto_Increment.Enabled = true;
 
             Button_Start_Connection.Text = "Start TCPIP Connection";
         }
@@ -85,6 +85,8 @@ namespace MAT_script_runner
             Panel_Bluetooth.Visible = true;
             Panel_TCP.Visible = false;
             Checkbox_Voice.Visible = true;
+            Checkbox_Auto_Increment.Checked = true;
+            Checkbox_Auto_Increment.Enabled = false;
 
             Button_Start_Connection.Text = "Start Bluetooth Connection";
         }
@@ -211,7 +213,6 @@ namespace MAT_script_runner
                     if (client != null)
                     {
                         client.Close();                     
-                        
                         client = null;
                     }
 
@@ -354,6 +355,16 @@ namespace MAT_script_runner
 
                                     stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
                                         Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
+
+                                    if (Checkbox_Auto_Execute.Checked)
+                                    {
+                                        matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
+                                        object result = null;
+                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                            Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
+                                            "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
+                                            Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
+                                    }
                                 }
 
                                 // Write next chunk
@@ -364,10 +375,21 @@ namespace MAT_script_runner
                                 {
                                     // Close file and prep trial number for next
                                     stream.Close();
+                                    IPFileOpenStatus = false;
 
                                     Properties.Settings.Default.TrialNumber++;
                                     Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
                                     Properties.Settings.Default.Save();
+
+                                    if (Checkbox_Auto_Execute.Checked)
+                                    {
+                                        matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
+                                        object result = null;
+                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                            Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
+                                            "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
+                                            Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
+                                    }
                                 }
                             }
                             else                        // Not writing any data, no file open
@@ -376,6 +398,8 @@ namespace MAT_script_runner
                                 {
                                     stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
                                         Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
+
+                                    IPFileOpenStatus = true;
 
                                     // Write chunk
                                     stream.Write(bufferString[(startIndex + 6)..(stopIndex > -1 ? stopIndex : ^0)]);
@@ -388,6 +412,16 @@ namespace MAT_script_runner
                                         Properties.Settings.Default.TrialNumber++;
                                         Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
                                         Properties.Settings.Default.Save();
+
+                                        if (Checkbox_Auto_Execute.Checked)
+                                        {
+                                            matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
+                                            object result = null;
+                                            matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                                Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
+                                                "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
+                                                Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
+                                        }
                                     }
                                 }
                             }
