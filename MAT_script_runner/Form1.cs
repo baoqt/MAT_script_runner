@@ -231,13 +231,6 @@ namespace MAT_script_runner
                 }
 
                 Timer_Receive_Samples.Enabled = false;
-
-                if (Checkbox_Auto_Increment.Checked)
-                {
-                    Properties.Settings.Default.TrialNumber++;
-                    Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
-                    Properties.Settings.Default.Save();
-                }   
             }
         }
 
@@ -318,12 +311,14 @@ namespace MAT_script_runner
 
                     if (netStream.DataAvailable)
                     {
+                        Label_Status.Text = bytesRead.ToString();
                         bytesRead = netStream.Read(buffer, 0, buffer.Length);
                         bufferString = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
                         netStream.Write(ack, 0, 7);
                     }
 
-                    Label_Status.Text = bytesRead.ToString();
+                    
+                    Label_Status.ForeColor = (Label_Status.ForeColor == Color.LimeGreen ? Color.Gray : Color.LimeGreen);
 
                     if (bytesRead > 0)
                     {
@@ -394,13 +389,13 @@ namespace MAT_script_runner
                             }
                             else                        // Not writing any data, no file open
                             {
-                                if (startIndex > -1)    // Start token found
-                                {
-                                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
+                                stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
                                         Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
 
-                                    IPFileOpenStatus = true;
+                                IPFileOpenStatus = true;
 
+                                if (startIndex > -1)    // Start token found
+                                {
                                     // Write chunk
                                     stream.Write(bufferString[(startIndex + 6)..(stopIndex > -1 ? stopIndex : ^0)]);
                                     bytesWritten += (stopIndex > -1 ? stopIndex : bytesRead) - (startIndex);
@@ -423,6 +418,12 @@ namespace MAT_script_runner
                                                 Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
                                         }
                                     }
+                                }
+                                else                    // No measurement framing found
+                                {
+                                    // Write chunk
+                                    stream.Write(bufferString);
+                                    bytesWritten += bytesRead;
                                 }
                             }
                         }
@@ -472,7 +473,7 @@ namespace MAT_script_runner
             }
             else if (e.Cancelled)
             {
-                MessageBox.Show("Canceled.");
+                MessageBox.Show("Cancelled.");
             }
             else
             {
