@@ -290,6 +290,7 @@ namespace MAT_script_runner
             this.Checkbox_Auto_Increment.TabStop = false;
             this.Checkbox_Auto_Increment.Text = "Auto-increment Trial Number";
             this.Checkbox_Auto_Increment.UseVisualStyleBackColor = true;
+            this.Checkbox_Auto_Increment.Visible = false;
             // 
             // Numeric_Quick_Trial
             // 

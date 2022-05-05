@@ -73,7 +73,9 @@ namespace MAT_script_runner
             Panel_Connection.Visible = true;
             Panel_TCP.Visible = true;
             Panel_Bluetooth.Visible = false;
-            Checkbox_Auto_Increment.Enabled = true;
+            Checkbox_Auto_Increment.Visible = true;
+            Checkbox_Auto_Increment.Checked = true;
+            Checkbox_Auto_Increment.Enabled = false;
 
             Button_Start_Connection.Text = "Start TCPIP Connection";
         }
@@ -85,8 +87,8 @@ namespace MAT_script_runner
             Panel_Bluetooth.Visible = true;
             Panel_TCP.Visible = false;
             Checkbox_Voice.Visible = true;
-            Checkbox_Auto_Increment.Checked = true;
-            Checkbox_Auto_Increment.Enabled = false;
+            Checkbox_Auto_Increment.Visible = true;
+            Checkbox_Auto_Increment.Enabled = true;
 
             Button_Start_Connection.Text = "Start Bluetooth Connection";
         }
@@ -241,6 +243,7 @@ namespace MAT_script_runner
             Panel_Bluetooth.Visible = false;
             Panel_TCP.Visible = false;
             Checkbox_Voice.Visible = false;
+            Checkbox_Auto_Increment.Visible = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)

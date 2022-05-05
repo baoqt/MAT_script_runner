@@ -1,24 +1,7 @@
-function [outcome] = SensorKinematicsE_auto(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, manTrimLeft, manTrimRight, plot_mode, stationaryThreshold, kpStat, kpMove)
+function [outcome] = SensorKinematicsE_auto(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, plot_mode, output_mode, manTrimLeft, manTrimRight, stationaryThreshold, kpStat, kpMove)
 
 %% Import Libraries
 addpath('Quaternions');
-
-%% Initialize Reference/Output Varibles
-
-% Do Not Delete this section. This will make sure the csv output is as
-% correct as possible should the script or test fail.
-% errorVelocity = 0;
-% errorScript = 0;
-% salimu = 0;
-% mtimu = 0;
-% ImaxVel = 0;
-% corrvaluex= 0; RMSE = 0; peakdetThres = 0;
-% jerkimu_dim =0;
-% jerkimu_dim_log =0;
-% ImaxVel = 0; ImeanVelocity =0;
-% ImaxAccel = 0;  ImeanAccel = 0;   stdAccel = 0;
-% TimeFromOnsetToLastPeak = 0;   TimeFromOnsetToFirstPeak =0;
-% TimeFromOnsetToHighestPeak = 0;   TimeFromOnsetToLowestPeak = 0;
 
 %% Assign defaults if specified in arguments
 if stationaryThreshold <= 0                     
@@ -220,12 +203,12 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
 
     %Threshold detection
     if (GestureName == "Nose")     
-        tempPeak = findpeaks(acc_magFilt, 'MinPeakProminence', max(acc_magFilt) * 0.25);
+        tempPeak = findpeaks(acc_magFilt, 'MinPeakProminence', max(acc_magFilt) * 0.35);
         
         for stationaryStart = 0.05:0.05:0.25
             stationary = (acc_magFilt < max(0.025, stationaryStart * tempPeak(1))) & ...
                 (gyr_magFilt < 500 * stationaryStart);
-            if ( (mean(stationary(1:20)))<1  )
+            if ( (mean(stationary(1:50)))<1  )
 
             else
                 break;
@@ -237,7 +220,7 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         for stationaryStop = 0.05:0.05:0.25
             stationary = (acc_magFilt < stationaryStop * max(0.025, tempPeak(length(tempPeak)))) & ...
                 (gyr_magFilt < 500 * stationaryStop);
-            if (   (mean(stationary((end-20):end))) < 1  )
+            if (   (mean(stationary((end-50):end))) < 1  )
 
             else
                 break;
@@ -249,23 +232,23 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         r = find(stationary<1, 1, 'last');
         mt_imu_with_stationary = r-l;
 
-        [acc_peaks, acc_peaks_x] = findpeaks(acc_magFilt(l:r), 'MinPeakProminence', max(acc_magFilt(l:r)) * 0.25);
+        [acc_peaks, acc_peaks_x] = findpeaks(acc_magFilt(l:r), 'MinPeakProminence', max(acc_magFilt(l:r)) * 0.35);
 
         acc_gest_stat = zeros(length(acc_magFilt(l:r)), 1);
         for i = 1:1:length(acc_peaks) - 1
             acc_gest_stat(acc_peaks_x(i):acc_peaks_x(i + 1)) = acc_gest_stat(acc_peaks_x(i):acc_peaks_x(i + 1)) | ...
-                (acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1)) < 0.025 * ...
+                (acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1)) < 0.015 * ...
                 ((max(acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1)))) - ...
                 min(acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1)))) + ...
                 min(acc_magFilt(l + acc_peaks_x(i):l + acc_peaks_x(i + 1))));
         end
 
-        [gyr_peaks, gyr_peaks_x] = findpeaks(gyr_magFilt(l:r), 'MinPeakProminence', max(gyr_magFilt(l:r)) * 0.25);
+        [gyr_peaks, gyr_peaks_x] = findpeaks(gyr_magFilt(l:r), 'MinPeakProminence', max(gyr_magFilt(l:r)) * 0.35);
 
         gyr_gest_stat = zeros(length(gyr_magFilt(l:r)), 1);
         for i = 1:1:length(gyr_peaks) - 1
             gyr_gest_stat(gyr_peaks_x(i):gyr_peaks_x(i + 1)) = gyr_gest_stat(gyr_peaks_x(i):gyr_peaks_x(i + 1)) | ...
-                (gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1)) < 0.025 * ...
+                (gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1)) < 0.015 * ...
                 ((max(gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1)))) - ...
                 min(gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1)))) + ...
                 min(gyr_magFilt(l + gyr_peaks_x(i):l + gyr_peaks_x(i + 1))));
@@ -515,12 +498,14 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         %outcome = vertcat(outcome, errorEntry);
     end
     
-    trimIx = IMU_vx(onset_IMUV:offset_IMUV);
-    trimIy = IMU_vy(onset_IMUV:offset_IMUV);
-    trimIz = IMU_vz(onset_IMUV:offset_IMUV);
-    
-    results = [func_SAL(trimIx, trimIy, trimIz), 10 * mean(trimI), 10 * (offset_IMUV - onset_IMUV)];
-    writematrix(results, strcat(OutputPath, "\Stats_", SubjectNum, "_", TrialNum, ".csv"));
+    if mod(output_mode, 2)
+        trimIx = IMU_vx(onset_IMUV:offset_IMUV);
+        trimIy = IMU_vy(onset_IMUV:offset_IMUV);
+        trimIz = IMU_vz(onset_IMUV:offset_IMUV);
+
+        results = [func_SAL(trimIx, trimIy, trimIz), 10 * mean(trimI), 10 * (offset_IMUV - onset_IMUV)];
+        writematrix(results, strcat(OutputPath, "\Stats_", SubjectNum, "_", TrialNum, ".csv"));
+    end
 
 if plot_mode == 1
     % -------------------------------------------------------------------------
@@ -535,10 +520,11 @@ if plot_mode == 1
         plot(time, gyrX, 'r');
         plot(time, gyrY, 'g');
         plot(time, gyrZ, 'b');
+        plot(time, gyr_magFilt, ':k');
         title('Gyroscope');
         xlabel('Time (s)');
         ylabel('Angular velocity (^\circ/s)');
-        legend('X', 'Y', 'Z');
+        legend('X', 'Y', 'Z', 'Filtered');
         hold off;
         ax(2) = subplot(2,1,2);
         hold on;
@@ -561,7 +547,8 @@ if plot_mode == 1
     clf;
     f70.Name = strcat("Trial ", TrialNum, ": Trimmed Resultant Data");
     f70.Visible = 'off';
-    hold on; plot(trimI * 10, 'linewidth', 2)
+    rescaledX = [0:10:(length(trimI) * 10) - 1];
+    hold on; plot(rescaledX, trimI * 10, 'LineStyle', '--', 'Color', 'red', 'linewidth', 2)
     title('Resultant Velocity');
     legend('IMU');
 
