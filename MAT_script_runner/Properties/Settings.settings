@@ -18,7 +18,7 @@
       <Value Profile="(Default)">.\Output</Value>
     </Setting>
     <Setting Name="ScriptDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.\Scripts</Value>
+      <Value Profile="(Default)">SensorKinematicsE_auto.m</Value>
     </Setting>
     <Setting Name="COMPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>

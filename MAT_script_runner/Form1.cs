@@ -314,10 +314,10 @@ namespace MAT_script_runner
 
                     if (netStream.DataAvailable)
                     {
-                        Label_Status.Text = bytesRead.ToString();
                         bytesRead = netStream.Read(buffer, 0, buffer.Length);
                         bufferString = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
                         netStream.Write(ack, 0, 7);
+                        Label_Status.Text = bytesRead.ToString();
                     }
 
                     
