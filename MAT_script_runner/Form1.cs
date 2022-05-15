@@ -223,7 +223,14 @@ namespace MAT_script_runner
                         server.Stop();
                         server = null;
                     }
-                    
+
+                    if (stream != null)
+                    {
+                        stream.Close();
+                        stream = null;
+                        IPFileOpenStatus = false;
+                    }
+
                     Label_Status.Text = "Standby";
                     Label_Status.ForeColor = Color.Gray;
                 }
@@ -339,7 +346,7 @@ namespace MAT_script_runner
 
                             if (IPFileOpenStatus)       // Still writing data from current trial, file already open
                             {
-                                if (startIndex > 0)     // Start token found
+                                if (startIndex > -1)     // Start token found
                                 {
                                     // Finish writing remaining file at beginning of buffer
                                     stream.Write(bufferString[0..Math.Max(startIndex - 5, 0)]);
@@ -371,7 +378,11 @@ namespace MAT_script_runner
 
                                 if (stopIndex > -1)      // Stop token found
                                 {
+                                    // Include the stop flag in bytes count
+                                    bytesWritten += 5;
+
                                     // Close file and prep trial number for next
+
                                     stream.Close();
                                     IPFileOpenStatus = false;
 
@@ -405,6 +416,8 @@ namespace MAT_script_runner
 
                                     if (stopIndex > -1) // Stop token found
                                     {
+                                        bytesWritten += 5;
+
                                         stream.Close();
 
                                         Properties.Settings.Default.TrialNumber++;
