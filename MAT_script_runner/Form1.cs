@@ -166,10 +166,15 @@ namespace MAT_script_runner
                     {
                         matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                         object result = null;
-                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
                             Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory + 
                             "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber, 
                             Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
+
+                        object[] res = result as object[];
+                        MessageBox.Show("Speed: " + res[0] + "\nSAL: " + res[1] + "\nMovement Time: " + res[2]);
+
+
                     }
 
                     if (Checkbox_Auto_Increment.Checked)
@@ -324,10 +329,9 @@ namespace MAT_script_runner
                         bytesRead = netStream.Read(buffer, 0, buffer.Length);
                         bufferString = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
                         netStream.Write(ack, 0, 7);
-                        Label_Status.Text = bytesRead.ToString();
                     }
 
-                    
+                    Label_Status.Text = bytesRead.ToString();
                     Label_Status.ForeColor = (Label_Status.ForeColor == Color.LimeGreen ? Color.Gray : Color.LimeGreen);
 
                     if (bytesRead > 0)
@@ -354,22 +358,24 @@ namespace MAT_script_runner
 
                                     stream.Close();
 
-                                    Properties.Settings.Default.TrialNumber++;
-                                    Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
-                                    Properties.Settings.Default.Save();
-
-                                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
-                                        Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
-
                                     if (Checkbox_Auto_Execute.Checked)
                                     {
                                         matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                                         object result = null;
-                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
                                             Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
                                             "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
                                             Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
+
+                                        object[] res = result as object[];
+                                        byte[] resByteArray = Encoding.ASCII.GetBytes(res[0].ToString() + "," + res[1].ToString() + "," + res[2].ToString());
+                                        netStream.Write(resByteArray, 0, resByteArray.Length);
                                     }
+
+                                    Numeric_Quick_Trial.Value++;
+
+                                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
+                                        Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
                                 }
 
                                 // Write next chunk
@@ -386,19 +392,24 @@ namespace MAT_script_runner
                                     stream.Close();
                                     IPFileOpenStatus = false;
 
-                                    Properties.Settings.Default.TrialNumber++;
-                                    Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
-                                    Properties.Settings.Default.Save();
-
                                     if (Checkbox_Auto_Execute.Checked)
                                     {
                                         matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                                         object result = null;
-                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
                                             Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
                                             "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
                                             Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
+
+                                        object[] res = result as object[];
+                                        byte[] resByteArray = Encoding.ASCII.GetBytes(res[0].ToString() + "," + res[1].ToString() + "," + res[2].ToString());
+                                        netStream.Write(resByteArray, 0, resByteArray.Length);
                                     }
+
+                                    Numeric_Quick_Trial.Value++;
+
+                                    stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
+                                        Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
                                 }
                             }
                             else                        // Not writing any data, no file open
@@ -420,19 +431,24 @@ namespace MAT_script_runner
 
                                         stream.Close();
 
-                                        Properties.Settings.Default.TrialNumber++;
-                                        Numeric_Quick_Trial.Value = Properties.Settings.Default.TrialNumber;
-                                        Properties.Settings.Default.Save();
-
                                         if (Checkbox_Auto_Execute.Checked)
                                         {
                                             matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                                             object result = null;
-                                            matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 1, out result,
+                                            matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
                                                 Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
                                                 "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
                                                 Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
+
+                                            object[] res = result as object[];
+                                            byte[] resByteArray = Encoding.ASCII.GetBytes(res[0].ToString() + "," + res[1].ToString() + "," + res[2].ToString());
+                                            netStream.Write(resByteArray, 0, resByteArray.Length);
                                         }
+
+                                        Numeric_Quick_Trial.Value++;
+
+                                        stream = new StreamWriter(Properties.Settings.Default.InputDirectory + @"\" + Properties.Settings.Default.GestureName + @"\" +
+                                            Properties.Settings.Default.ParticipantNumber + "_" + Properties.Settings.Default.TrialNumber + ".csv");
                                     }
                                 }
                                 else                    // No measurement framing found

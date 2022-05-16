@@ -17,7 +17,7 @@ viconOutputPath = strcat("..\..\Data\Output\Vicon\", task, "\");
 viconFilename   = "Nose";
 
 participant = 1;
-trial = 41;
+trial = 1;
 startTrial = trial;
 endTrial = 1;
 
@@ -43,7 +43,7 @@ for startTrial = startTrial:endTrial
     disp(startTrial);
     if (sensorMode)
         sensorError = SensorKinematicsE_auto(inputPath, outputPath, ... 
-            task, participant, startTrial, 0, 0, plotMode, 0, 0, 0);
+            task, participant, startTrial, plotMode, outcomeMode, 0, 0, 0, 0, 0);
     
         if (sensorError(1,1) ~= "-1")
             errors = vertcat(errors, sensorError);
