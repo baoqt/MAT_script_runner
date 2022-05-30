@@ -328,7 +328,7 @@ namespace MAT_script_runner
                     {
                         bytesRead = netStream.Read(buffer, 0, buffer.Length);
                         bufferString = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                        netStream.Write(ack, 0, 7);
+                        netStream.Write(System.Text.Encoding.ASCII.GetBytes(bytesRead.ToString()), 0, bytesRead.ToString().Length);
                     }
 
                     Label_Status.Text = bytesRead.ToString();
@@ -463,7 +463,7 @@ namespace MAT_script_runner
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message + "\nHere!");
                 }
             }
         }

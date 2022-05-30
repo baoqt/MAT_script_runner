@@ -42,16 +42,12 @@ namespace TCPClient
             String text = System.IO.File.ReadAllText(path);
             Byte[] data = System.Text.Encoding.ASCII.GetBytes(text);
 
-            stream.Write(startArr, 0, startArr.Length);
-
-
             // Send the message to the connected TcpServer.
+            stream.Write(startArr, 0, startArr.Length);
             stream.Write(data, 0, data.Length);
-
-            Console.WriteLine("Sent: {0}", data.ToString());
+            stream.Write(stopArr, 0, stopArr.Length);
 
             // Receive the TcpServer.response.
-
             // Buffer to store the response bytes.
             Byte[] receiveData = new Byte[256];
 
@@ -59,20 +55,18 @@ namespace TCPClient
             string responseData = String.Empty;
             Int32 bytes = 0;
 
-            for (int i = 0; i < Math.Ceiling((double) data.Length / (double) 3000); i ++)
+            int confirmedReadBytes = 0;
+
+            while (confirmedReadBytes < data.Length + startArr.Length + stopArr.Length)
             {
-            // Read the first batch of the TcpServer response bytes.
-            bytes = stream.Read(receiveData, 0, receiveData.Length);
-            responseData = System.Text.Encoding.ASCII.GetString(receiveData, 0, bytes);
-            Console.WriteLine("Received: {0}", responseData);
+                // Read the first batch of the TcpServer response bytes.
+                bytes = stream.Read(receiveData, 0, receiveData.Length);
+                responseData = System.Text.Encoding.ASCII.GetString(receiveData, 0, bytes);
+                confirmedReadBytes += Int32.Parse(responseData);
+                Console.WriteLine("Bytes read: {0}\n  Total bytes read: {1}", responseData, confirmedReadBytes);
             }
 
-            stream.Write(stopArr, 0, stopArr.Length);
-
             // Read final result of mat script
-            bytes = stream.Read(receiveData, 0, receiveData.Length);
-            responseData = System.Text.Encoding.ASCII.GetString(receiveData, 0, bytes);
-            Console.WriteLine("Received: {0}", responseData);
             bytes = stream.Read(receiveData, 0, receiveData.Length);
             responseData = System.Text.Encoding.ASCII.GetString(receiveData, 0, bytes);
             Console.WriteLine("Received: {0}", responseData);
@@ -86,7 +80,7 @@ namespace TCPClient
                 // connected to the same address as specified by the server, port
                 // combination.
                 Int32 port = 13000;
-                TcpClient client = new TcpClient("192.168.1.117", port);
+                TcpClient client = new TcpClient("192.168.0.81", port);
 
                 String message = String.Empty;
 
