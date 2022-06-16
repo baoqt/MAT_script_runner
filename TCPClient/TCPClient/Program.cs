@@ -79,8 +79,8 @@ namespace TCPClient
                 // Note, for this client to work you need to have a TcpServer
                 // connected to the same address as specified by the server, port
                 // combination.
-                Int32 port = 13000;
-                TcpClient client = new TcpClient("192.168.0.81", port);
+                Int32 port = 8080;
+                TcpClient client = new TcpClient("192.168.68.86", port);
 
                 String message = String.Empty;
 

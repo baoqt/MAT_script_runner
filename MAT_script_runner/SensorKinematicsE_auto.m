@@ -35,6 +35,14 @@ switch GestureName
         if kpMove == 0
             kpMove = 6;     % 10
         end
+    otherwise
+        if kpStat == 0
+            kpStat = 0;
+        end
+
+        if kpMove == 0
+            kpMove = 2;     % 10
+        end  
 end
 
 outcome = ["-1", "-1"];
