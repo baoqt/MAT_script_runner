@@ -1,4 +1,4 @@
-function [speed, sal, mtimu] = SensorKinematicsE_auto(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, plot_mode, output_mode, manTrimLeft, manTrimRight, stationaryThreshold, kpStat, kpMove)
+function [mean_vel, max_vel, sal, mtimu, path_length] = SensorKinematicsE_auto(InputPath, OutputPath, GestureName, SubjectNumInt, TrialNumInt, plot_mode, output_mode, manTrimLeft, manTrimRight, stationaryThreshold, kpStat, kpMove)
 
 %% Import Libraries
 addpath('Quaternions');
@@ -515,9 +515,11 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         writematrix(results, strcat(OutputPath, "\Stats_", SubjectNum, "_", TrialNum, ".csv"));
     end
     
-    speed = mean(trimI);
-    sal = 0;
+    mean_vel = mean(trimI);
+    max_vel = max(trimI);
+    sal = func_SAL(trimIx, trimIy, trimIz);
     mtimu = 10 * (r - l);
+    path_length = trapz(trimI);
 
 if plot_mode == 1
     % -------------------------------------------------------------------------
