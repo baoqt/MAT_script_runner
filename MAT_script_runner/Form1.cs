@@ -166,13 +166,13 @@ namespace MAT_script_runner
                     {
                         matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                         object result = null;
-                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
+                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 5, out result,
                             Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory + 
                             "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber, 
                             Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
 
                         object[] res = result as object[];
-                        MessageBox.Show("Speed: " + res[0] + "\nSAL: " + res[1] + "\nMovement Time: " + res[2]);
+                        MessageBox.Show("Mean velocity: " + res[0] + "\nMax velocity: " + res[1] + "\nSAL: " + res[2] + "\nMovement Time: " + res[3] + "\nPath Length: " + res[4]);
 
 
                     }
@@ -362,7 +362,7 @@ namespace MAT_script_runner
                                     {
                                         matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                                         object result = null;
-                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
+                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 5, out result,
                                             Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
                                             "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
                                             Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
@@ -396,7 +396,7 @@ namespace MAT_script_runner
                                     {
                                         matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                                         object result = null;
-                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
+                                        matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 5, out result,
                                             Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
                                             "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
                                             Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
@@ -435,7 +435,7 @@ namespace MAT_script_runner
                                         {
                                             matlab.Execute("cd '" + Path.GetDirectoryName(Properties.Settings.Default.ScriptDirectory) + "'");
                                             object result = null;
-                                            matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 3, out result,
+                                            matlab.Feval(Path.GetFileNameWithoutExtension(Properties.Settings.Default.ScriptDirectory), 5, out result,
                                                 Properties.Settings.Default.InputDirectory + "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.OutputDirectory +
                                                 "\\" + Properties.Settings.Default.GestureName, Properties.Settings.Default.GestureName, Properties.Settings.Default.ParticipantNumber,
                                                 Properties.Settings.Default.TrialNumber, Checkbox_Plot_Mode.Checked ? 1 : 0, 1, 0, 0, 0, 0, 0);
