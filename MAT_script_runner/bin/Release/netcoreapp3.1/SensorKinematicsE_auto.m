@@ -9,7 +9,7 @@ if stationaryThreshold <= 0
 end
 
 
-
+% AHRS kp values will need to be adjusted on a per gesture basis
 switch GestureName
     case "Block"
         if kpStat == 0
@@ -65,7 +65,9 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         data2 = filtfilt(b, a, data);
 
         %% Automatic Trimming of IMU
-
+% Axes will need to be adjusted such that the axis at rest will have
+% gravity constant removed from it. This depends on how the sensor lays
+% while at stationary periods beginning and ending the gesture.
     g = 9.81;
     if (GestureName == "Nose")
         if (size(data, 2) == 6)
@@ -129,7 +131,7 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     samplePeriod = 1/100;
     
     g = 9.81;
-    
+    % Axes reorientation and gravity constant removal
     if (GestureName == "Nose")
         if (size(data, 2) == 6)
             accX = data(:,1)/g;
@@ -210,6 +212,7 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
     gyr_magFilt = filtfilt(b, a, gyr_magFilt);
 
     %Threshold detection
+    % Thresholds will need to be adjusted on a per gesture basis.
     if (GestureName == "Nose")     
         tempPeak = findpeaks(acc_magFilt, 'MinPeakProminence', max(acc_magFilt) * 0.35);
         
@@ -241,7 +244,11 @@ data = data(max([manTrimLeft 1]):(end-manTrimRight),:);
         mt_imu_with_stationary = r-l;
 
         [acc_peaks, acc_peaks_x] = findpeaks(acc_magFilt(l:r), 'MinPeakProminence', max(acc_magFilt(l:r)) * 0.35);
-
+        % Depending on the gesture, expected number of peaks and vallies
+        % will need to be adjusted as well as stationary period within the
+        % main gesture part. Currently it finds the local minimum and marks
+        % everything within 1.5% of the minimum as stationary. This will
+        % need to be tuned based on average results accuracy.
         acc_gest_stat = zeros(length(acc_magFilt(l:r)), 1);
         for i = 1:1:length(acc_peaks) - 1
             acc_gest_stat(acc_peaks_x(i):acc_peaks_x(i + 1)) = acc_gest_stat(acc_peaks_x(i):acc_peaks_x(i + 1)) | ...
